@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>FinanceTracker</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family: Arial, sans-serif;
+            background:#f4f4f4;
+        }
+
+        nav{
+            background:white;
+            padding:20px 50px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo{
+            font-size:28px;
+            font-weight:bold;
+            color:#2563eb;
+        }
+
+        .btn{
+            padding:10px 20px;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            margin-left:10px;
+        }
+
+        .login{
+            background:#e5e7eb;
+        }
+
+        .register{
+            background:#2563eb;
+            color:white;
+        }
+
+        .hero{
+            text-align:center;
+            padding:100px 20px;
+        }
+
+        .hero h1{
+            font-size:50px;
+            color:#1f2937;
+        }
+
+        .hero p{
+            font-size:20px;
+            color:#6b7280;
+            max-width:700px;
+            margin:auto;
+            margin-top:20px;
+        }
+
+        .hero button{
+            margin-top:30px;
+            padding:15px 30px;
+            border:none;
+            border-radius:15px;
+            background:#2563eb;
+            color:white;
+            font-size:18px;
+            cursor:pointer;
+        }
+
+        .features{
+            display:flex;
+            justify-content:center;
+            gap:30px;
+            padding:50px;
+            flex-wrap:wrap;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            width:300px;
+            border-radius:20px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3{
+            color:#2563eb;
+        }
+
+        footer{
+            background:white;
+            text-align:center;
+            padding:20px;
+            margin-top:50px;
+            color:gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">FinanceTracker</div>
+
+    <div>
+        
+        <a href="/login">
+        <button class="btn login">Login</button>
+        </a>
+
+        <a href="/register">
+        <button class="btn register">Register</button>
+        </a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Kelola Keuanganmu Dengan Mudah</h1>
+
+    <p>
+        Catat pemasukan, pengeluaran, anggaran,
+        dan target tabungan dalam satu aplikasi.
+    </p>
+
+    <button>Mulai Sekarang</button>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <h3>Catat Transaksi</h3>
+        <p>Simpan pemasukan dan pengeluaran dengan mudah.</p>
+    </div>
+
+    <div class="card">
+        <h3>Kelola Anggaran</h3>
+        <p>Pantau penggunaan anggaran secara real-time.</p>
+    </div>
+
+    <div class="card">
+        <h3>Target Tabungan</h3>
+        <p>Kelola target tabungan dan progres keuanganmu.</p>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 FinanceTracker - Sistem Manajemen Keuangan
+</footer>
+
+</body>
+</html>

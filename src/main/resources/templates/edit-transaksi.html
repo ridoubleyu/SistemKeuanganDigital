@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Transaksi</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .box{
+            background:white;
+            padding:30px;
+            border-radius:20px;
+            max-width:500px;
+            margin:auto;
+        }
+
+        input, select{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+            border-radius:10px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            padding:12px 20px;
+            background:#2563eb;
+            color:white;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Edit Transaksi</h2>
+
+    <form action="/transaksi/update" method="post">
+
+        <input type="hidden"
+               name="id"
+               th:value="${transaksi.id}">
+
+        <input type="text"
+               name="nama"
+               th:value="${transaksi.nama}">
+
+        <input type="number"
+               name="jumlah"
+               th:value="${transaksi.jumlah}">
+
+        <select name="jenis">
+
+            <option value="Pemasukan"
+                    th:selected="${transaksi.jenis == 'Pemasukan'}">
+                Pemasukan
+            </option>
+
+            <option value="Pengeluaran"
+                    th:selected="${transaksi.jenis == 'Pengeluaran'}">
+                Pengeluaran
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Update
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

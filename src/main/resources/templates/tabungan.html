@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Target Tabungan</title>
+
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#f4f4f4;
+        }
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#2563eb;
+            position:fixed;
+            left:0;
+            top:0;
+            color:white;
+            padding:20px;
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:15px;
+            margin-bottom:10px;
+            border-radius:10px;
+        }
+
+        .sidebar a:hover{
+            background:rgba(255,255,255,0.2);
+        }
+
+        .main{
+            margin-left:270px;
+            padding:30px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:20px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom:30px;
+        }
+
+        .card h2{
+            margin-top:0;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+            border:1px solid #ddd;
+            border-radius:10px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:10px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#1d4ed8;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        table th{
+            background:#2563eb;
+            color:white;
+            padding:15px;
+        }
+
+        table td{
+            padding:15px;
+            border-bottom:1px solid #eee;
+        }
+
+        .progress-box{
+            width:100%;
+            background:#e5e7eb;
+            border-radius:10px;
+            overflow:hidden;
+            height:20px;
+        }
+
+        .progress{
+            height:100%;
+            background:#2563eb;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>FinanceTracker</h2>
+
+    <a href="/dashboard">Dashboard</a>
+
+    <a href="/transaksi">Transaksi</a>
+
+    <a href="/anggaran">Anggaran</a>
+
+    <a href="/tabungan">Tabungan</a>
+
+</div>
+
+<div class="main">
+
+    <div class="card">
+
+        <h2>Tambah Target Tabungan</h2>
+
+        <form action="/tabungan" method="post">
+
+            <label>Nama Target</label>
+
+            <input type="text"
+                   name="namaTarget"
+                   placeholder="Laptop Gaming">
+
+            <label>Target Jumlah</label>
+
+            <input type="number"
+                   name="targetJumlah"
+                   placeholder="10000000">
+
+            <button type="submit">
+                Simpan Target
+            </button>
+
+        </form>
+
+    </div>
+
+    <h2>Daftar Target Tabungan</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Nama Target</th>
+            <th>Target</th>
+            <th>Terkumpul</th>
+            <th>Sisa</th>
+            <th>Progress</th>
+            <th>Aksi</th>
+        </tr>
+
+<tr th:each="t : ${listTabungan}">
+
+    <td th:text="${t.tabunganId}"></td>
+
+    <td th:text="${t.namaTarget}"></td>
+
+    <td th:text="${t.targetJumlah}"></td>
+
+    <td th:text="${t.jumlahTerkumpul}"></td>
+
+    <td th:text="${t.targetJumlah - t.jumlahTerkumpul}"></td>
+
+    <td>
+
+        <div class="progress-box">
+
+            <div class="progress"
+                 th:style="'width:' + (${t.jumlahTerkumpul} / ${t.targetJumlah} * 100) + '%'">
+            </div>
+
+        </div>
+
+    </td>
+
+    <td>
+
+        <form th:action="@{/tabungan/tambah/{id}(id=${t.tabunganId})}"
+              method="post">
+
+            <input type="number"
+                   name="nominal"
+                   placeholder="Tambah uang">
+
+            <button type="submit">
+                Tambah
+            </button>
+
+        </form>
+
+    </td>
+
+</tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>

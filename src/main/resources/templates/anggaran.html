@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Anggaran</title>
+
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#f4f4f4;
+        }
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#2563eb;
+            position:fixed;
+            left:0;
+            top:0;
+            color:white;
+            padding:20px;
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:15px;
+            margin-bottom:10px;
+            border-radius:10px;
+        }
+
+        .sidebar a:hover{
+            background:rgba(255,255,255,0.2);
+        }
+
+        .main{
+            margin-left:270px;
+            padding:30px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:20px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom:30px;
+        }
+
+        .card h2{
+            margin-top:0;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+            border:1px solid #ddd;
+            border-radius:10px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:10px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#1d4ed8;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        table th{
+            background:#2563eb;
+            color:white;
+            padding:15px;
+        }
+
+        table td{
+            padding:15px;
+            border-bottom:1px solid #eee;
+        }
+
+        .hapus{
+            color:red;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>FinanceTracker</h2>
+
+    <a href="/dashboard">Dashboard</a>
+
+    <a href="/transaksi">Transaksi</a>
+
+    <a href="/anggaran">Anggaran</a>
+
+    <a href="/tabungan">Tabungan</a>
+
+</div>
+
+<div class="main">
+
+    <div class="card">
+
+        <h2>Tambah Anggaran</h2>
+
+        <form action="/anggaran" method="post">
+
+            <label>Periode</label>
+
+            <input type="text"
+                   name="periode"
+                   placeholder="2026-05">
+
+            <label>Kategori</label>
+
+            <input type="text"
+                   name="kategori"
+                   placeholder="Makan">
+
+            <label>Jumlah Target</label>
+
+            <input type="number"
+                   name="jumlahTarget"
+                   placeholder="1000000">
+
+            <button type="submit">
+                Simpan Anggaran
+            </button>
+
+        </form>
+
+    </div>
+
+    <h2>Daftar Anggaran</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Periode</th>
+            <th>Kategori</th>
+            <th>Target</th>
+            <th>Terpakai</th>
+            <th>Sisa</th>
+            <th>Aksi</th>
+        </tr>
+
+        <tr th:each="a : ${listAnggaran}">
+
+            <td th:text="${a.anggaranId}"></td>
+
+            <td th:text="${a.periode}"></td>
+
+            <td th:text="${a.kategori}"></td>
+
+            <td th:text="${a.jumlahTarget}"></td>
+
+            <td th:text="${a.jumlahTerpakai}"></td>
+
+            <td th:text="${a.jumlahTarget - a.jumlahTerpakai}"></td>
+
+            <td>
+
+                <a class="hapus"
+                   th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
+                    Hapus
+                </a>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>
