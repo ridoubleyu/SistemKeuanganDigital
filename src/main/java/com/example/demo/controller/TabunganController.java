@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Tabungan;
 import com.example.demo.repository.TabunganRepository;
+import com.example.demo.repository.TransaksiRepository;
+import com.example.demo.model.Transaksi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,8 @@ public class TabunganController {
 
     @Autowired
     private TabunganRepository tabunganRepository;
+    @Autowired
+    private TransaksiRepository transaksiRepository;
 
     @GetMapping("/tabungan")
     public String tabunganPage(Model model){
@@ -25,7 +29,24 @@ public class TabunganController {
         return "tabungan";
     }
 
-   @PostMapping("/tabungan/tambah/{id}")
+    @PostMapping("/tabungan")
+    public String tambahTabungan(
+
+            @RequestParam String namaTarget,
+            @RequestParam Double targetJumlah
+    ){
+
+        Tabungan tabungan = new Tabungan();
+
+        tabungan.setNamaTarget(namaTarget);
+        tabungan.setTargetJumlah(targetJumlah);
+        tabungan.setJumlahTerkumpul(0.0);
+
+        tabunganRepository.save(tabungan);
+
+        return "redirect:/tabungan";
+    }
+@PostMapping("/tabungan/tambah/{id}")
 public String tambahUangTabungan(
 
         @PathVariable Long id,
@@ -37,12 +58,26 @@ public String tambahUangTabungan(
 
     if(tabungan != null){
 
+        // TAMBAH TABUNGAN
         double total =
                 tabungan.getJumlahTerkumpul() + nominal;
 
         tabungan.setJumlahTerkumpul(total);
 
         tabunganRepository.save(tabungan);
+
+        // BUAT TRANSAKSI PENGELUARAN
+        Transaksi transaksi = new Transaksi();
+
+        transaksi.setNama(
+                "Menabung - " + tabungan.getNamaTarget()
+        );
+
+        transaksi.setJumlah(nominal);
+
+        transaksi.setJenis("Pengeluaran");
+
+        transaksiRepository.save(transaksi);
     }
 
     return "redirect:/tabungan";

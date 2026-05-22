@@ -179,12 +179,11 @@
 
     <td th:text="${t.namaTarget}"></td>
 
-    <td th:text="${t.targetJumlah}"></td>
+<td th:text="'Rp ' + ${#numbers.formatInteger(t.targetJumlah, 0, 'POINT')}"></td>
 
-    <td th:text="${t.jumlahTerkumpul}"></td>
+<td th:text="'Rp ' + ${#numbers.formatInteger(t.jumlahTerkumpul, 0, 'POINT')}"></td>
 
-    <td th:text="${t.targetJumlah - t.jumlahTerkumpul}"></td>
-
+<td th:text="'Rp ' + ${#numbers.formatInteger(t.targetJumlah - t.jumlahTerkumpul, 0, 'POINT')}"></td>
     <td>
 
         <div class="progress-box">
@@ -199,18 +198,18 @@
 
     <td>
 
-        <form th:action="@{/tabungan/tambah/{id}(id=${t.tabunganId})}"
-              method="post">
+<form th:action="@{'/tabungan/tambah/' + ${t.tabunganId}}"
+      method="post">
 
-            <input type="number"
-                   name="nominal"
-                   placeholder="Tambah uang">
+    <input type="number"
+           name="nominal"
+           placeholder="Tambah uang">
 
-            <button type="submit">
-                Tambah
-            </button>
+    <button type="submit">
+        Tambah
+    </button>
 
-        </form>
+</form>
 
     </td>
 
