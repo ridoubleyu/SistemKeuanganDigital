@@ -1,58 +1,184 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - FinanceTracker</title>
 
+    <!-- FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body{
+
+        *{
             margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f4f4;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Poppins', sans-serif;
+            height:100vh;
             display:flex;
             justify-content:center;
             align-items:center;
-            height:100vh;
+            overflow:hidden;
+            background:linear-gradient(135deg,#2563eb,#60a5fa);
+            position:relative;
         }
 
+        /* BACKGROUND EFFECT */
+        body::before{
+            content:'';
+            position:absolute;
+            width:500px;
+            height:500px;
+            background:rgba(255,255,255,0.1);
+            border-radius:50%;
+            top:-180px;
+            left:-120px;
+        }
+
+        body::after{
+            content:'';
+            position:absolute;
+            width:400px;
+            height:400px;
+            background:rgba(255,255,255,0.08);
+            border-radius:50%;
+            bottom:-150px;
+            right:-100px;
+        }
+
+        /* LOGIN BOX */
         .login-box{
-            background:white;
-            padding:40px;
-            width:350px;
-            border-radius:20px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+            width:400px;
+            background:rgba(255,255,255,0.95);
+            backdrop-filter:blur(10px);
+            padding:45px;
+            border-radius:28px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.2);
+            position:relative;
+            z-index:10;
+            animation:fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn{
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        .logo{
+            text-align:center;
+            font-size:45px;
+            margin-bottom:10px;
         }
 
         h2{
             text-align:center;
             color:#2563eb;
-            margin-bottom:30px;
+            margin-bottom:10px;
+            font-size:32px;
         }
 
-        input{
+        .subtitle{
+            text-align:center;
+            color:#6b7280;
+            font-size:15px;
+            margin-bottom:35px;
+        }
+
+        /* INPUT */
+        .input-group{
+            margin-bottom:22px;
+        }
+
+        .input-group label{
+            display:block;
+            margin-bottom:8px;
+            color:#374151;
+            font-size:14px;
+            font-weight:500;
+        }
+
+        .input-box{
+            position:relative;
+        }
+
+        .input-box input{
             width:100%;
-            padding:12px;
-            margin-top:10px;
-            margin-bottom:20px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            box-sizing:border-box;
+            padding:14px 16px;
+            border:1px solid #d1d5db;
+            border-radius:14px;
+            outline:none;
+            font-size:15px;
+            transition:0.3s;
+            background:#f9fafb;
         }
 
+        .input-box input:focus{
+            border-color:#2563eb;
+            background:white;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+        }
+
+        /* OPTIONS */
+        .options{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+            font-size:14px;
+        }
+
+        .options a{
+            text-decoration:none;
+            color:#2563eb;
+            font-weight:500;
+        }
+
+        /* BUTTON */
         button{
             width:100%;
-            padding:12px;
-            background:#2563eb;
-            color:white;
+            padding:15px;
             border:none;
-            border-radius:10px;
-            cursor:pointer;
+            border-radius:16px;
+            background:linear-gradient(135deg,#2563eb,#3b82f6);
+            color:white;
             font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 10px 20px rgba(37,99,235,0.25);
         }
 
         button:hover{
-            background:#1e40af;
+            transform:translateY(-3px);
+            box-shadow:0 15px 25px rgba(37,99,235,0.35);
         }
 
+        /* REGISTER */
+        .register{
+            text-align:center;
+            margin-top:25px;
+            font-size:14px;
+            color:#6b7280;
+        }
+
+        .register a{
+            text-decoration:none;
+            color:#2563eb;
+            font-weight:600;
+        }
+
+        /* BACK */
         .back{
             text-align:center;
             margin-top:20px;
@@ -60,8 +186,29 @@
 
         .back a{
             text-decoration:none;
+            color:#6b7280;
+            font-size:14px;
+            transition:0.3s;
+        }
+
+        .back a:hover{
             color:#2563eb;
         }
+
+        /* RESPONSIVE */
+        @media(max-width:480px){
+
+            .login-box{
+                width:90%;
+                padding:35px 25px;
+            }
+
+            h2{
+                font-size:28px;
+            }
+
+        }
+
     </style>
 </head>
 
@@ -69,19 +216,65 @@
 
 <div class="login-box">
 
-    <h2>Login</h2>
+    <div class="logo"></div>
+
+    <h2>Welcome Back</h2>
+
+    <p class="subtitle">
+        Login untuk melanjutkan ke FinanceTracker
+    </p>
 
     <form action="/login" method="post">
 
-        <input type="email" name="email" placeholder="Masukkan Email" required>
+        <div class="input-group">
 
-        <input type="password" name="password" placeholder="Masukkan Password" required>
+            <label>Email</label>
+
+            <div class="input-box">
+                <input
+                        type="email"
+                        name="email"
+                        placeholder="Masukkan Email"
+                        required>
+            </div>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Password</label>
+
+            <div class="input-box">
+                <input
+                        type="password"
+                        name="password"
+                        placeholder="Masukkan Password"
+                        required>
+            </div>
+
+        </div>
+
+        <div class="options">
+
+            <label>
+                <input type="checkbox">
+                Remember me
+            </label>
+
+            <a href="#">Lupa Password?</a>
+
+        </div>
 
         <button type="submit">
-            Login
+            🚀 Login Sekarang
         </button>
 
     </form>
+
+    <div class="register">
+        Belum punya akun?
+        <a href="/register">Daftar Sekarang</a>
+    </div>
 
     <div class="back">
         <a href="/">← Kembali ke Home</a>

@@ -1,108 +1,453 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Anggaran</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anggaran - FinanceTracker</title>
+
+    <!-- FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
-        body{
+        *{
             margin:0;
-            font-family:Arial, sans-serif;
-            background:#f4f4f4;
+            padding:0;
+            box-sizing:border-box;
         }
 
+        body{
+            font-family:'Poppins', sans-serif;
+            background:#f8fafc;
+            color:#1e293b;
+            overflow-x:hidden;
+            position:relative;
+        }
+
+        /* BACKGROUND EFFECT */
+        body::before{
+            content:'';
+            position:fixed;
+            width:450px;
+            height:450px;
+            background:rgba(59,130,246,0.08);
+            border-radius:50%;
+            top:-120px;
+            right:-100px;
+            z-index:-1;
+            animation:float1 8s ease-in-out infinite;
+        }
+
+        body::after{
+            content:'';
+            position:fixed;
+            width:350px;
+            height:350px;
+            background:rgba(168,85,247,0.08);
+            border-radius:50%;
+            bottom:-120px;
+            left:-80px;
+            z-index:-1;
+            animation:float2 10s ease-in-out infinite;
+        }
+
+        @keyframes float1{
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(20px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        @keyframes float2{
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-20px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        /* SIDEBAR */
         .sidebar{
-            width:250px;
+            width:260px;
             height:100vh;
-            background:#2563eb;
             position:fixed;
             left:0;
             top:0;
-            color:white;
-            padding:20px;
+
+            background:
+            linear-gradient(
+            180deg,
+            #0f172a,
+            #1e1b4b,
+            #312e81,
+            #2563eb
+            );
+
+            background-size:400% 400%;
+            animation:gradientMove 12s ease infinite;
+
+            padding:30px 20px;
+            overflow-y:auto;
+            z-index:1000;
+            box-shadow:6px 0 25px rgba(37,99,235,0.25);
         }
 
-        .sidebar h2{
+        @keyframes gradientMove{
+            0%{
+                background-position:0% 50%;
+            }
+
+            50%{
+                background-position:100% 50%;
+            }
+
+            100%{
+                background-position:0% 50%;
+            }
+        }
+
+        /* LOGO */
+        .logo{
             text-align:center;
-            margin-bottom:40px;
+            color:white;
+            font-size:30px;
+            font-weight:700;
+            margin-bottom:50px;
+            position:relative;
+        }
+
+        .logo::after{
+            content:'';
+            width:80px;
+            height:4px;
+            border-radius:10px;
+            background:linear-gradient(90deg,#60a5fa,#c084fc);
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+            bottom:-12px;
+        }
+
+        /* MENU */
+        .menu{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
         }
 
         .sidebar a{
-            display:block;
-            color:white;
             text-decoration:none;
-            padding:15px;
-            margin-bottom:10px;
-            border-radius:10px;
+            color:white;
+            display:flex;
+            align-items:center;
+            gap:14px;
+            padding:17px 18px;
+            border-radius:18px;
+            transition:0.35s ease;
+            font-size:15px;
+            font-weight:500;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .sidebar a::before{
+            content:'';
+            position:absolute;
+            width:0%;
+            height:100%;
+            left:0;
+            top:0;
+            background:rgba(255,255,255,0.1);
+            transition:0.4s;
+        }
+
+        .sidebar a:hover::before{
+            width:100%;
         }
 
         .sidebar a:hover{
-            background:rgba(255,255,255,0.2);
+            transform:translateX(8px) scale(1.02);
+            box-shadow:0 8px 20px rgba(0,0,0,0.15);
         }
 
+        .sidebar a.active{
+            background:rgba(255,255,255,0.18);
+            backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,0.15);
+            font-weight:600;
+            box-shadow:0 10px 25px rgba(255,255,255,0.08);
+        }
+
+        .sidebar a:hover span{
+            animation:wiggle 0.5s ease;
+        }
+
+        @keyframes wiggle{
+            0%{
+                transform:rotate(0deg);
+            }
+
+            25%{
+                transform:rotate(-10deg);
+            }
+
+            50%{
+                transform:rotate(10deg);
+            }
+
+            75%{
+                transform:rotate(-5deg);
+            }
+
+            100%{
+                transform:rotate(0deg);
+            }
+        }
+
+        /* MAIN */
         .main{
-            margin-left:270px;
-            padding:30px;
+            margin-left:260px;
+            padding:35px;
+            min-height:100vh;
         }
 
-        .card{
-            background:white;
-            padding:25px;
-            border-radius:20px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        /* TOPBAR */
+        .topbar{
+            background:rgba(255,255,255,0.92);
+            backdrop-filter:blur(10px);
+            padding:30px;
+            border-radius:28px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.06);
             margin-bottom:30px;
         }
 
+        .topbar h1{
+            font-size:36px;
+            margin-bottom:10px;
+            color:#1e293b;
+        }
+
+        .topbar p{
+            color:#64748b;
+            font-size:15px;
+        }
+
+        /* CARD */
+        .card{
+            background:white;
+            padding:35px;
+            border-radius:28px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.06);
+            margin-bottom:35px;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .card::before{
+            content:'';
+            position:absolute;
+            width:180px;
+            height:180px;
+            background:rgba(37,99,235,0.05);
+            border-radius:50%;
+            top:-60px;
+            right:-60px;
+        }
+
         .card h2{
-            margin-top:0;
+            color:#2563eb;
+            margin-bottom:25px;
+            font-size:28px;
+            position:relative;
+            z-index:2;
+        }
+
+        /* FORM */
+        .form-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:20px;
+            position:relative;
+            z-index:2;
+        }
+
+        .input-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .input-group label{
+            margin-bottom:8px;
+            font-size:14px;
+            font-weight:500;
+            color:#374151;
         }
 
         input{
             width:100%;
-            padding:12px;
-            margin-top:10px;
-            margin-bottom:20px;
-            border:1px solid #ddd;
-            border-radius:10px;
+            padding:14px 16px;
+            border:1px solid #d1d5db;
+            border-radius:16px;
+            outline:none;
+            font-size:14px;
+            background:#f9fafb;
+            transition:0.3s;
         }
 
-        button{
-            background:#2563eb;
+        input:focus{
+            border-color:#2563eb;
+            background:white;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+        }
+
+        /* BUTTON */
+        .btn{
+            margin-top:25px;
+            padding:15px 24px;
+            background:linear-gradient(135deg,#2563eb,#7c3aed);
             color:white;
             border:none;
-            padding:12px 20px;
-            border-radius:10px;
+            border-radius:16px;
             cursor:pointer;
+            font-size:15px;
+            font-weight:600;
+            transition:0.3s;
+            box-shadow:0 10px 20px rgba(37,99,235,0.25);
         }
 
-        button:hover{
-            background:#1d4ed8;
+        .btn:hover{
+            transform:translateY(-3px) scale(1.02);
+            box-shadow:0 15px 25px rgba(37,99,235,0.35);
+        }
+
+        /* TITLE */
+        .section-title{
+            margin-bottom:20px;
+        }
+
+        .section-title h2{
+            font-size:30px;
+            color:#1e293b;
+        }
+
+        /* TABLE */
+        .table-box{
+            background:white;
+            border-radius:28px;
+            overflow:hidden;
+            overflow-x:auto;
+            box-shadow:0 8px 25px rgba(0,0,0,0.06);
         }
 
         table{
             width:100%;
             border-collapse:collapse;
-            background:white;
-            border-radius:20px;
-            overflow:hidden;
-            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+            min-width:850px;
         }
 
         table th{
-            background:#2563eb;
+            background:linear-gradient(135deg,#2563eb,#7c3aed);
             color:white;
-            padding:15px;
+            padding:18px;
+            text-align:left;
+            font-size:14px;
         }
 
         table td{
-            padding:15px;
-            border-bottom:1px solid #eee;
+            padding:18px;
+            border-bottom:1px solid #e5e7eb;
+            font-size:14px;
         }
 
+        table tr{
+            transition:0.3s;
+        }
+
+        table tr:hover{
+            background:#f8fafc;
+            transform:scale(1.005);
+        }
+
+        /* BADGES */
+        .badge{
+            padding:8px 14px;
+            border-radius:20px;
+            font-size:13px;
+            font-weight:600;
+            display:inline-block;
+        }
+
+        .target{
+            background:#dbeafe;
+            color:#1d4ed8;
+        }
+
+        .terpakai{
+            background:#fee2e2;
+            color:#991b1b;
+        }
+
+        .sisa{
+            background:#dcfce7;
+            color:#166534;
+        }
+
+        /* DELETE BUTTON */
         .hapus{
-            color:red;
+            background:#ef4444;
+            color:white;
             text-decoration:none;
-            font-weight:bold;
+            padding:10px 14px;
+            border-radius:12px;
+            font-size:13px;
+            font-weight:600;
+            transition:0.3s;
+            display:inline-block;
+        }
+
+        .hapus:hover{
+            transform:translateY(-2px);
+            box-shadow:0 8px 15px rgba(239,68,68,0.3);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px){
+
+            .sidebar{
+                width:100%;
+                height:auto;
+                position:relative;
+                border-radius:0 0 25px 25px;
+            }
+
+            .menu{
+                flex-direction:row;
+                flex-wrap:wrap;
+                justify-content:center;
+            }
+
+            .main{
+                margin-left:0;
+                padding:20px;
+            }
+
+            .topbar h1{
+                font-size:28px;
+            }
+
         }
 
     </style>
@@ -110,94 +455,160 @@
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-    <h2>FinanceTracker</h2>
+    <div class="logo">
+        🪙 CashMate
+    </div>
 
-    <a href="/dashboard">Dashboard</a>
+    <div class="menu">
 
-    <a href="/transaksi">Transaksi</a>
+        <a href="/dashboard">
+            <span>📊</span> Dashboard
+        </a>
 
-    <a href="/anggaran">Anggaran</a>
+        <a href="/transaksi">
+            <span>💸</span> Transaksi
+        </a>
 
-    <a href="/tabungan">Tabungan</a>
+        <a href="/anggaran" class="active">
+            <span>📈</span> Anggaran
+        </a>
+
+        <a href="/tabungan">
+            <span>🎯</span> Tabungan
+        </a>
+
+    </div>
 
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
+    <!-- HEADER -->
+    <div class="topbar">
+
+        <h1>Manajemen Anggaran ✨</h1>
+
+        <p>
+            Atur target pengeluaran agar keuangan tetap terkontrol
+        </p>
+
+    </div>
+
+    <!-- FORM -->
     <div class="card">
 
-        <h2>Tambah Anggaran</h2>
+        <h2>➕ Tambah Anggaran</h2>
 
         <form action="/anggaran" method="post">
 
-            <label>Periode</label>
+            <div class="form-grid">
 
-            <input type="text"
-                   name="periode"
-                   placeholder="2026-05">
+                <div class="input-group">
 
-            <label>Kategori</label>
+                    <label>Periode</label>
 
-            <input type="text"
-                   name="kategori"
-                   placeholder="Makan">
+                    <input type="text"
+                           name="periode"
+                           placeholder="Contoh: 2026-05">
 
-            <label>Jumlah Target</label>
+                </div>
 
-            <input type="number"
-                   name="jumlahTarget"
-                   placeholder="1000000">
+                <div class="input-group">
 
-            <button type="submit">
-                Simpan Anggaran
+                    <label>Kategori</label>
+
+                    <input type="text"
+                           name="kategori"
+                           placeholder="Contoh: Makan">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Jumlah Target</label>
+
+                    <input type="number"
+                           name="jumlahTarget"
+                           placeholder="Contoh: 1000000">
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn">
+                🚀 Simpan Anggaran
             </button>
 
         </form>
 
     </div>
 
-    <h2>Daftar Anggaran</h2>
+    <!-- TITLE -->
+    <div class="section-title">
 
-    <table>
+        <h2>Daftar Anggaran</h2>
 
-        <tr>
-            <th>ID</th>
-            <th>Periode</th>
-            <th>Kategori</th>
-            <th>Target</th>
-            <th>Terpakai</th>
-            <th>Sisa</th>
-            <th>Aksi</th>
-        </tr>
+    </div>
 
-        <tr th:each="a : ${listAnggaran}">
+    <!-- TABLE -->
+    <div class="table-box">
 
-            <td th:text="${a.anggaranId}"></td>
+        <table>
 
-            <td th:text="${a.periode}"></td>
+            <tr>
+                <th>ID</th>
+                <th>Periode</th>
+                <th>Kategori</th>
+                <th>Target</th>
+                <th>Terpakai</th>
+                <th>Sisa</th>
+                <th>Aksi</th>
+            </tr>
 
-            <td th:text="${a.kategori}"></td>
+            <tr th:each="a : ${listAnggaran}">
 
-            <td th:text="${a.jumlahTarget}"></td>
+                <td th:text="${a.anggaranId}"></td>
 
-            <td th:text="${a.jumlahTerpakai}"></td>
+                <td th:text="${a.periode}"></td>
 
-            <td th:text="${a.jumlahTarget - a.jumlahTerpakai}"></td>
+                <td th:text="${a.kategori}"></td>
 
-            <td>
+                <td>
+                    <span class="badge target"
+                          th:text="'Rp ' + ${#numbers.formatInteger(a.jumlahTarget, 3, 'POINT')}">
+                    </span>
+                </td>
 
-                <a class="hapus"
-                   th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
-                    Hapus
-                </a>
+                <td>
+                    <span class="badge terpakai"
+                          th:text="'Rp ' + ${#numbers.formatInteger(a.jumlahTerpakai, 3, 'POINT')}">
+                    </span>
+                </td>
 
-            </td>
+                <td>
+                    <span class="badge sisa"
+                          th:text="'Rp ' + ${#numbers.formatInteger(a.jumlahTarget - a.jumlahTerpakai, 3, 'POINT')}">
+                    </span>
+                </td>
 
-        </tr>
+                <td>
 
-    </table>
+                    <a class="hapus"
+                       th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
+                        🗑️ Hapus
+                    </a>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
 
 </div>
 
