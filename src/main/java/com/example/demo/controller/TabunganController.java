@@ -4,7 +4,8 @@ import com.example.demo.model.Tabungan;
 import com.example.demo.repository.TabunganRepository;
 import com.example.demo.repository.TransaksiRepository;
 import com.example.demo.model.Transaksi;
-
+import com.example.demo.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,20 +19,22 @@ public class TabunganController {
     @Autowired
     private TransaksiRepository transaksiRepository;
 
-    @GetMapping("/tabungan")
-    public String tabunganPage(Model model){
+@GetMapping("/tabungan")
+public String tabunganPage(
+        Model model,
+        HttpSession session){
+        User user = (User) session.getAttribute("user");
 
-        model.addAttribute(
-                "listTabungan",
-                tabunganRepository.findAll()
-        );
-
+model.addAttribute(
+        "listTabungan",
+        tabunganRepository.findByUserId(user.getId())
+);
         return "tabungan";
     }
 
     @PostMapping("/tabungan")
     public String tambahTabungan(
-
+           HttpSession session,
             @RequestParam String namaTarget,
             @RequestParam Double targetJumlah
     ){
@@ -41,7 +44,8 @@ public class TabunganController {
         tabungan.setNamaTarget(namaTarget);
         tabungan.setTargetJumlah(targetJumlah);
         tabungan.setJumlahTerkumpul(0.0);
-
+        User user = (User) session.getAttribute("user");
+        tabungan.setUserId(user.getId());
         tabunganRepository.save(tabungan);
 
         return "redirect:/tabungan";

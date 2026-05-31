@@ -2,7 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Anggaran;
 import com.example.demo.repository.AnggaranRepository;
-
+import com.example.demo.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,23 +16,32 @@ public class AnggaranController {
     private AnggaranRepository anggaranRepository;
 
     @GetMapping("/anggaran")
-    public String anggaranPage(Model model){
+    public String anggaranPage(
+            Model model,
+            HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if(user == null){
+            return "redirect:/login";
+        }
 
         model.addAttribute(
                 "listAnggaran",
-                anggaranRepository.findAll()
+                anggaranRepository.findByUserId(user.getId())
         );
 
         return "anggaran";
     }
 
-    @PostMapping("/anggaran")
-    public String tambahAnggaran(
+@PostMapping("/anggaran")
+public String tambahAnggaran(
 
-            @RequestParam String periode,
-            @RequestParam String kategori,
-            @RequestParam Double jumlahTarget
-    ){
+        @RequestParam String periode,
+        @RequestParam String kategori,
+        @RequestParam Double jumlahTarget,
+        HttpSession session
+){
 
         Anggaran anggaran = new Anggaran();
 
@@ -40,9 +50,8 @@ public class AnggaranController {
         anggaran.setJumlahTarget(jumlahTarget);
 
         anggaran.setJumlahTerpakai(0.0);
-
-        anggaran.setUserId(1L);
-
+        User user = (User) session.getAttribute("user");
+        anggaran.setUserId(user.getId());
         anggaranRepository.save(anggaran);
 
         return "redirect:/anggaran";

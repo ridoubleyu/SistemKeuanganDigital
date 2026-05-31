@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Anggaran;
 import com.example.demo.model.Transaksi;
+import com.example.demo.model.User;
 import com.example.demo.repository.TransaksiRepository;
 import com.example.demo.repository.AnggaranRepository;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class TransaksiController {
@@ -21,25 +23,41 @@ public class TransaksiController {
     @Autowired
     private AnggaranRepository anggaranRepository;
 
-    @GetMapping("/transaksi")
-    public String transaksiPage(Model model){
+@GetMapping("/transaksi")
+public String transaksiPage(
+        Model model,
+        HttpSession session){
 
-        model.addAttribute(
-                "listTransaksi",
-                transaksiRepository.findAll()
-        );
+    User user = (User) session.getAttribute("user");
 
-        return "transaksi";
+    if(user == null){
+        return "redirect:/login";
     }
 
- @PostMapping("/transaksi")
+    model.addAttribute(
+            "listTransaksi",
+            transaksiRepository.findByUser(user)
+    );
+
+    return "transaksi";
+}
+
+@PostMapping("/transaksi")
 public String tambahTransaksi(
 
     @RequestParam String nama,
     @RequestParam Double jumlah,
     @RequestParam String jenis,
-    @RequestParam String kategori
+    @RequestParam String kategori,
+    HttpSession session
 ) {
+
+    // AMBIL USER YANG LOGIN
+    User user = (User) session.getAttribute("user");
+
+    if(user == null){
+        return "redirect:/login";
+    }
 
     // SIMPAN TRANSAKSI
     Transaksi transaksi = new Transaksi();
@@ -48,6 +66,7 @@ public String tambahTransaksi(
     transaksi.setJumlah(jumlah);
     transaksi.setJenis(jenis);
     transaksi.setKategori(kategori);
+    transaksi.setUser(user);
 
     transaksiRepository.save(transaksi);
 

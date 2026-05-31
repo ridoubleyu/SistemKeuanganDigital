@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
 
@@ -17,25 +18,29 @@ public class AuthWebController {
     private UserRepository userRepository;
 
     // LOGIN
-    @PostMapping("/login")
-    public String login(
-            @RequestParam String email,
-            @RequestParam String password
-    ) {
+@PostMapping("/login")
+public String login(
+        @RequestParam String email,
+        @RequestParam String password,
+        HttpSession session
+) {
 
-        Optional<User> userOpt = userRepository.findByEmail(email);
+    Optional<User> userOpt = userRepository.findByEmail(email);
 
-        if(userOpt.isPresent()) {
+    if(userOpt.isPresent()) {
 
-            User user = userOpt.get();
+        User user = userOpt.get();
 
-            if(user.getPassword().equals(password)) {
-                return "redirect:/dashboard";
-            }
+        if(user.getPassword().equals(password)) {
+
+            session.setAttribute("user", user);
+
+            return "redirect:/dashboard";
         }
-
-        return "redirect:/login";
     }
+
+    return "redirect:/login";
+}
 
     // REGISTER
     @PostMapping("/register")

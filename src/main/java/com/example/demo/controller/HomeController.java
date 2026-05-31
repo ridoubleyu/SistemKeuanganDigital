@@ -2,7 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Transaksi;
 import com.example.demo.repository.TransaksiRepository;
-
+import com.example.demo.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,22 +33,27 @@ public class HomeController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(
+            Model model,
+            HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if(user == null){
+            return "redirect:/login";
+        }
 
         List<Transaksi> transaksiList =
-                transaksiRepository.findAll();
+                transaksiRepository.findByUser(user);
 
         double pemasukan = 0;
         double pengeluaran = 0;
 
         for (Transaksi t : transaksiList) {
 
-            if (t.getJenis().equals("Pemasukan")) {
-
+            if ("Pemasukan".equals(t.getJenis())) {
                 pemasukan += t.getJumlah();
-
             } else {
-
                 pengeluaran += t.getJumlah();
             }
         }
