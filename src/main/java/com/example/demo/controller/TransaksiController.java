@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import java.time.LocalDate;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
@@ -25,7 +26,7 @@ public class TransaksiController {
 
 @GetMapping("/transaksi")
 public String transaksiPage(
-        Model model,
+       Model model,
         HttpSession session){
 
     User user = (User) session.getAttribute("user");
@@ -40,7 +41,7 @@ public String transaksiPage(
     );
 
     return "transaksi";
-}
+} 
 
 @PostMapping("/transaksi")
 public String tambahTransaksi(
@@ -66,6 +67,7 @@ public String tambahTransaksi(
     transaksi.setJumlah(jumlah);
     transaksi.setJenis(jenis);
     transaksi.setKategori(kategori);
+    transaksi.setTanggal(LocalDate.now());
     transaksi.setUser(user);
 
     transaksiRepository.save(transaksi);

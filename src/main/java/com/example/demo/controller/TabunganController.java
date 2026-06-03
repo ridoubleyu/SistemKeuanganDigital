@@ -23,15 +23,22 @@ public class TabunganController {
 public String tabunganPage(
         Model model,
         HttpSession session){
-        User user = (User) session.getAttribute("user");
 
-model.addAttribute(
-        "listTabungan",
-        tabunganRepository.findByUserId(user.getId())
-);
-        return "tabungan";
+    User user = (User) session.getAttribute("user");
+
+    System.out.println(user);
+
+    if(user == null){
+        return "redirect:/login";
     }
 
+    model.addAttribute(
+        "listTabungan",
+        tabunganRepository.findByUserId(user.getId())
+    );
+
+    return "tabungan";
+}
     @PostMapping("/tabungan")
     public String tambahTabungan(
            HttpSession session,

@@ -573,42 +573,42 @@
                 <th>Aksi</th>
             </tr>
 
-            <tr th:each="a : ${listAnggaran}">
+<tr th:each="a, stat : ${listAnggaran}">
 
-                <td th:text="${a.anggaranId}"></td>
+    <td th:text="${stat.count}"></td>
 
-                <td th:text="${a.periode}"></td>
+    <td th:text="${a.periode}"></td>
 
-                <td th:text="${a.kategori}"></td>
+    <td th:text="${a.kategori}"></td>
 
-                <td>
-                    <span class="badge target"
-                          th:text="'Rp ' + ${#numbers.formatInteger(a.jumlahTarget, 3, 'POINT')}">
-                    </span>
-                </td>
+    <td>
+        <span class="badge target"
+              th:text="|Rp ${#numbers.formatInteger(a.jumlahTarget, 0, 'POINT')}|">
+        </span>
+    </td>
 
-                <td>
-                    <span class="badge terpakai"
-                          th:text="'Rp ' + ${#numbers.formatInteger(a.jumlahTerpakai, 3, 'POINT')}">
-                    </span>
-                </td>
+    <td>
+        <span class="badge terpakai"
+              th:text="|Rp ${#numbers.formatInteger(a.jumlahTerpakai, 0, 'POINT')}|">
+        </span>
+    </td>
 
-                <td>
-                    <span class="badge sisa"
-                          th:text="'Rp ' + ${#numbers.formatInteger(a.jumlahTarget - a.jumlahTerpakai, 3, 'POINT')}">
-                    </span>
-                </td>
+    <td>
+        <span class="badge sisa"
+              th:text="|Rp ${#numbers.formatInteger(a.jumlahTarget - a.jumlahTerpakai, 0, 'POINT')}|">
+        </span>
+    </td>
 
-                <td>
+    <td>
 
-                    <a class="hapus"
-                       th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
-                        🗑️ Hapus
-                    </a>
+        <a class="hapus"
+           th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
+            🗑️ Hapus
+        </a>
 
-                </td>
+    </td>
 
-            </tr>
+</tr>
 
         </table>
 

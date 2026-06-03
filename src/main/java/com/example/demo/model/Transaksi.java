@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +19,8 @@ public class Transaksi {
     private String jenis;
 
     private String kategori;
+
+    private LocalDate tanggal;
 
     @ManyToOne
 @JoinColumn(name = "user_id")
@@ -39,6 +43,14 @@ public void setUser(User user) {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public LocalDate getTanggal() {
+    return tanggal;
+}
+
+public void setTanggal(LocalDate tanggal) {
+    this.tanggal = tanggal;
+}
 
     public String getNama() {
         return nama;

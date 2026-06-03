@@ -515,7 +515,8 @@
                 <th>Tambah Uang</th>
             </tr>
 
-            <tr th:each="t : ${listTabungan}">
+                <tr th:each="t, stat : ${listTabungan}">
+                    <td th:text="${stat.count}"></td>
 
                 <td th:text="${t.tabunganId}"></td>
 

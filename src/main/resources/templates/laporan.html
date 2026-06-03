@@ -318,21 +318,17 @@ table td{
                 <th>Jumlah</th>
             </tr>
 
-            <tr>
-                <td>2026-06-01</td>
-                <td>Gaji Bulanan</td>
-                <td>Gaji</td>
-                <td>Pemasukan</td>
-                <td>Rp 5.000.000</td>
-            </tr>
+<tr th:each="t : ${listTransaksi}">
 
-            <tr>
-                <td>2026-06-02</td>
-                <td>Makan Siang</td>
-                <td>Makan</td>
-                <td>Pengeluaran</td>
-                <td>Rp 35.000</td>
-            </tr>
+<td th:text="${#temporals.format(t.tanggal, 'dd-MM-yyyy')}"></td>
+    <td th:text="${t.nama}"></td>
+
+    <td th:text="${t.kategori}"></td>
+
+    <td th:text="${t.jenis}"></td>
+
+<td th:text="${'Rp ' + t.jumlah}"></td>
+</tr>
 
         </table>
 
