@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Laporan Keuangan - CashMate</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0f172a,
+    #1e1b4b,
+    #312e81,
+    #2563eb
+    );
+
+    padding:30px 20px;
+    z-index:1000;
+}
+
+.logo{
+    text-align:center;
+    color:white;
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:50px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.sidebar a{
+    text-decoration:none;
+    color:white;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:17px 18px;
+    border-radius:18px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,0.15);
+    transform:translateX(5px);
+}
+
+.sidebar a.active{
+    background:rgba(255,255,255,0.18);
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    padding:35px;
+}
+
+/* HEADER */
+
+.topbar{
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+}
+
+.topbar h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.topbar p{
+    color:#64748b;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+}
+
+.card h2{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+/* FILTER */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    margin-bottom:8px;
+}
+
+input{
+    padding:14px;
+    border:1px solid #d1d5db;
+    border-radius:14px;
+    font-size:14px;
+}
+
+.btn{
+    margin-top:25px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    border:none;
+    padding:15px 25px;
+    border-radius:15px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+/* TABLE */
+
+.table-box{
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:18px;
+}
+
+table td{
+    padding:18px;
+    border-bottom:1px solid #eee;
+}
+
+.export-btn{
+    display:inline-block;
+    background:#10b981;
+    color:white;
+    text-decoration:none;
+    padding:14px 22px;
+    border-radius:14px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.export-btn:hover{
+    opacity:0.9;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        🪙 CashMate
+    </div>
+
+    <div class="menu">
+
+        <a href="/dashboard">
+            📊 Dashboard
+        </a>
+
+        <a href="/transaksi">
+            💸 Transaksi
+        </a>
+
+        <a href="/anggaran">
+            📈 Anggaran
+        </a>
+
+        <a href="/tabungan">
+            🎯 Tabungan
+        </a>
+
+        <a href="/laporan" class="active">
+            🧾 Laporan
+        </a>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <div class="topbar">
+
+        <h1>📑 Laporan Keuangan</h1>
+
+        <p>
+            Ringkasan transaksi pemasukan dan pengeluaran.
+        </p>
+
+    </div>
+
+    <!-- FILTER -->
+
+    <div class="card">
+
+        <h2>🔍 Filter Laporan</h2>
+
+        <form>
+
+            <div class="form-grid">
+
+                <div class="input-group">
+                    <label>Tanggal Awal</label>
+                    <input type="date">
+                </div>
+
+                <div class="input-group">
+                    <label>Tanggal Akhir</label>
+                    <input type="date">
+                </div>
+
+            </div>
+
+            <button class="btn" type="submit">
+                Tampilkan Laporan
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- EXPORT -->
+
+    <a href="/laporan/export" class="export-btn">
+        📥 Export Excel
+    </a>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <table>
+
+            <tr>
+                <th>Tanggal</th>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Jenis</th>
+                <th>Jumlah</th>
+            </tr>
+
+            <tr>
+                <td>2026-06-01</td>
+                <td>Gaji Bulanan</td>
+                <td>Gaji</td>
+                <td>Pemasukan</td>
+                <td>Rp 5.000.000</td>
+            </tr>
+
+            <tr>
+                <td>2026-06-02</td>
+                <td>Makan Siang</td>
+                <td>Makan</td>
+                <td>Pengeluaran</td>
+                <td>Rp 35.000</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
