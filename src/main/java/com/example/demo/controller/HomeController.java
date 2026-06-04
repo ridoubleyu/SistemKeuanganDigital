@@ -26,7 +26,10 @@ public class HomeController {
     public String loginPage() {
         return "login";
     }
-
+    @GetMapping("/logout")
+public String logout(){
+    return "redirect:/login";
+}
     @GetMapping("/register")
     public String registerPage() {
         return "register";
