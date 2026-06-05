@@ -1,5 +1,7 @@
 # Entity Relationship Diagram (ERD)
 
+[⬅ Kembali ke Beranda](index.md)
+
 ## Gambaran Umum Database
 
 Database Sistem Keuangan Digital dirancang untuk menyimpan seluruh data pengguna dan aktivitas keuangan yang dilakukan di dalam sistem. Struktur database dibuat agar mampu mendukung proses pengelolaan anggaran dan tabungan secara efisien.
