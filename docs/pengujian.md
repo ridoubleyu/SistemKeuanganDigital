@@ -1,5 +1,7 @@
 # Pengujian Sistem
 
+[⬅ Kembali ke Beranda](index.md)
+
 Pengujian dilakukan untuk memastikan seluruh fitur pada Sistem Keuangan Digital dapat berjalan sesuai dengan kebutuhan pengguna.
 
 ## Hasil Pengujian
