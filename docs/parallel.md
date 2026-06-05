@@ -1,5 +1,7 @@
 # Implementasi Komputasi Paralel
 
+[⬅ Kembali ke Beranda](index.md)
+
 ## Latar Belakang
 
 Pada Sistem Keuangan Digital, dashboard menampilkan ringkasan data keuangan pengguna secara real-time. Informasi yang ditampilkan meliputi total pemasukan, total pengeluaran, dan jumlah transaksi yang telah dilakukan.
