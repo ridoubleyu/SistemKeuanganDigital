@@ -1,5 +1,7 @@
 # Kesimpulan dan Saran
 
+[⬅ Kembali ke Beranda](index.md)
+
 ## Kesimpulan
 
 Sistem Keuangan Digital berhasil dikembangkan menggunakan framework Spring Boot dan database MySQL. Sistem mampu membantu pengguna dalam mengelola data keuangan melalui fitur pengelolaan anggaran dan tabungan yang terintegrasi.
