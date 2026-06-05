@@ -48,8 +48,4 @@ Atribut:
 * Satu User dapat memiliki banyak Tabungan (One-to-Many).
 
 ## Diagram ERD
-
-Tambahkan gambar ERD pada bagian berikut.
-
-![ERD](images/erd.png)
 <img width="1600" height="1438" alt="image" src="https://github.com/user-attachments/assets/a2190cf7-84ef-4a34-ac75-d79243bc24ff" />
