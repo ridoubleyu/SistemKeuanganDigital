@@ -25,7 +25,8 @@ Tujuan dari pengembangan Sistem Keuangan Digital adalah:
 
 ## Dokumentasi
 
-* ERD (Entity Relationship Diagram)
-* Implementasi Sistem
-* Pengujian Sistem
-* Kesimpulan dan Saran Pengembangan
+- [ERD](erd.md)
+- [Implementasi](implementasi.md)
+- [Pengujian](pengujian.md)
+- [Komputasi Paralel](pararel.md)
+- [Kesimpulan](kesimpulan.md)
