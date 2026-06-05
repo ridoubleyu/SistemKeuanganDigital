@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
 
 @Controller
 public class TabunganController {
@@ -25,8 +26,6 @@ public String tabunganPage(
         HttpSession session){
 
     User user = (User) session.getAttribute("user");
-
-    System.out.println(user);
 
     if(user == null){
         return "redirect:/login";
@@ -46,12 +45,16 @@ public String tabunganPage(
             @RequestParam Double targetJumlah
     ){
 
+
         Tabungan tabungan = new Tabungan();
 
         tabungan.setNamaTarget(namaTarget);
         tabungan.setTargetJumlah(targetJumlah);
         tabungan.setJumlahTerkumpul(0.0);
         User user = (User) session.getAttribute("user");
+        if(user == null){
+        return "redirect:/login";
+}
         tabungan.setUserId(user.getId());
         tabunganRepository.save(tabungan);
 
@@ -59,15 +62,49 @@ public String tabunganPage(
     }
 @PostMapping("/tabungan/tambah/{id}")
 public String tambahUangTabungan(
-
         @PathVariable Long id,
-        @RequestParam Double nominal
+        @RequestParam Double nominal,
+        HttpSession session
 ){
 
-    Tabungan tabungan =
-            tabunganRepository.findById(id).orElse(null);
+        User user = (User) session.getAttribute("user");
+
+        if(user == null){
+        return "redirect:/login";
+}
+
+Double pemasukan =
+        transaksiRepository.totalPemasukan(user.getId());
+
+Double pengeluaran =
+        transaksiRepository.totalPengeluaran(user.getId());
+
+if(pemasukan == null) pemasukan = 0.0;
+if(pengeluaran == null) pengeluaran = 0.0;
+
+        Double saldo = pemasukan - pengeluaran;
+Tabungan tabungan =
+        tabunganRepository.findById(id).orElse(null);
+
+if(tabungan == null){
+    return "redirect:/tabungan";
+}
+
+if(!tabungan.getUserId().equals(user.getId())){
+    return "redirect:/tabungan";
+}
+
+if(nominal <= 0){
+    return "redirect:/tabungan";
+}
+
+if(nominal > saldo){
+    return "redirect:/tabungan?error=saldo";
+}
+
 
     if(tabungan != null){
+
 
         // TAMBAH TABUNGAN
         double total =
@@ -77,20 +114,26 @@ public String tambahUangTabungan(
 
         tabunganRepository.save(tabungan);
 
-        // BUAT TRANSAKSI PENGELUARAN
-        Transaksi transaksi = new Transaksi();
+Transaksi transaksi = new Transaksi();
 
-        transaksi.setNama(
-                "Menabung - " + tabungan.getNamaTarget()
-        );
+transaksi.setNama(
+        tabungan.getNamaTarget()
+);
 
-        transaksi.setJumlah(nominal);
+transaksi.setJumlah(nominal);
 
-        transaksi.setJenis("Pengeluaran");
+transaksi.setJenis("Pengeluaran");
 
-        transaksiRepository.save(transaksi);
+transaksi.setKategori("Menabung");
+
+transaksi.setUser(user);
+
+transaksi.setTanggal(LocalDate.now());
+
+transaksiRepository.save(transaksi);
+
+
     }
-
     return "redirect:/tabungan";
 }
 }

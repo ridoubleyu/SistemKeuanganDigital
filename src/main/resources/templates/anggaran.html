@@ -296,7 +296,8 @@
             color:#374151;
         }
 
-        input{
+        input,
+        select{
             width:100%;
             padding:14px 16px;
             border:1px solid #d1d5db;
@@ -525,9 +526,29 @@
 
                     <label>Kategori</label>
 
-                    <input type="text"
-                           name="kategori"
-                           placeholder="Contoh: Makan">
+                    <select name="kategori" required>
+
+                        <option value="">
+                            -- Pilih Kategori --
+                        </option>
+
+                        <option value="Makan">
+                            🍔 Makan
+                        </option>
+
+                        <option value="Transport">
+                            🚗 Transport
+                        </option>
+
+                        <option value="Belanja">
+                            🛍️ Belanja
+                        </option>
+
+                        <option value="Hiburan">
+                            🎮 Hiburan
+                        </option>
+
+                    </select>
 
                 </div>
 
@@ -601,8 +622,13 @@
 
     <td>
 
+        <a class="edit-btn"
+        th:href="@{/anggaran/edit/{id}(id=${a.anggaranId})}">
+            ✏️ Edit
+        </a>
+
         <a class="hapus"
-           th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
+        th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
             🗑️ Hapus
         </a>
 
@@ -613,6 +639,30 @@
         </table>
 
     </div>
+
+    <form action="/anggaran/update" method="post">
+
+    <input type="hidden"
+           name="id"
+           th:value="${anggaran.anggaranId}">
+
+    <input type="text"
+           name="periode"
+           th:value="${anggaran.periode}">
+
+    <input type="text"
+           name="kategori"
+           th:value="${anggaran.kategori}">
+
+    <input type="number"
+           name="jumlahTarget"
+           th:value="${anggaran.jumlahTarget}">
+
+    <button type="submit">
+        Simpan
+    </button>
+
+</form>
 
 </div>
 

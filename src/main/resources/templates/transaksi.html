@@ -547,56 +547,36 @@
                 <div class="input-group">
 
                     <label>Kategori</label>
+                <select name="kategori"
+                        id="kategori"
+                        required>
 
-                    <select name="kategori" required>
+                    <option value="">
+                        -- Pilih Kategori --
+                    </option>
 
-                        <option value="">
-                            -- Pilih Kategori --
-                        </option>
-
-                        <option value="Makan">
-                            🍔 Makan
-                        </option>
-
-                        <option value="Transport">
-                            🚗 Transport
-                        </option>
-
-                        <option value="Belanja">
-                            🛍️ Belanja
-                        </option>
-
-                        <option value="Hiburan">
-                            🎮 Hiburan
-                        </option>
-
-                        <option value="Gaji">
-                            💼 Gaji
-                        </option>
-
-                    </select>
+                </select>
 
                 </div>
 
                 <div class="input-group">
 
-                    <label>Jenis</label>
+                <label>Jenis</label>
+                <select name="jenis"
+                        id="jenis"
+                        required>
 
-                    <select name="jenis" required>
+                    <option value="">-- Pilih Jenis --</option>
 
-                        <option value="">
-                            -- Pilih Jenis --
-                        </option>
+                    <option value="Pemasukan">
+                        📈 Pemasukan
+                    </option>
 
-                        <option value="Pemasukan">
-                            📈 Pemasukan
-                        </option>
+                    <option value="Pengeluaran">
+                        💸 Pengeluaran
+                    </option>
 
-                        <option value="Pengeluaran">
-                            💸 Pengeluaran
-                        </option>
-
-                    </select>
+                </select>
 
                 </div>
 
@@ -624,10 +604,8 @@
                 <th>Aksi</th>
             </tr>
 
-            <tr th:each="t : ${listTransaksi}">
-
-                <td th:text="${t.id}"></td>
-
+                <tr th:each="t, stat : ${listTransaksi}">
+                <td th:text="${stat.count}"></td>
                 <td th:text="${t.nama}"></td>
 
                 <td th:text="'Rp ' + ${#numbers.formatInteger(t.jumlah, 3, 'POINT')}"></td>
@@ -673,6 +651,58 @@
     </div>
 
 </div>
+<script>
+
+const jenisSelect =
+    document.getElementById("jenis");
+
+const kategoriSelect =
+    document.getElementById("kategori");
+
+jenisSelect.addEventListener("change", function(){
+
+    kategoriSelect.innerHTML =
+        '<option value="">-- Pilih Kategori --</option>';
+
+    if(this.value === "Pemasukan"){
+
+        const kategoriPemasukan = [
+            "Gaji",
+            "Bonus",
+            "Freelance",
+            "Investasi"
+        ];
+
+        kategoriPemasukan.forEach(function(k){
+
+            kategoriSelect.innerHTML +=
+                `<option value="${k}">${k}</option>`;
+
+        });
+
+    }
+
+    else if(this.value === "Pengeluaran"){
+
+        const kategoriPengeluaran = [
+            "Makan",
+            "Transport",
+            "Belanja",
+            "Hiburan"
+        ];
+
+        kategoriPengeluaran.forEach(function(k){
+
+            kategoriSelect.innerHTML +=
+                `<option value="${k}">${k}</option>`;
+
+        });
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>

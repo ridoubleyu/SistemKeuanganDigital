@@ -75,32 +75,60 @@ public String tambahTransaksi(
     // UPDATE ANGGARAN
     if(jenis.equalsIgnoreCase("Pengeluaran")){
 
-        List<Anggaran> listAnggaran =
-                anggaranRepository.findAll();
+    List<Anggaran> listAnggaran =
+            anggaranRepository.findByUserId(user.getId());
 
-        for(Anggaran a : listAnggaran){
+    for(Anggaran a : listAnggaran){
 
-            if(a.getKategori().equalsIgnoreCase(kategori)){
+        if(a.getKategori().equalsIgnoreCase(kategori)){
 
-                Double totalTerpakai =
-                        a.getJumlahTerpakai() + jumlah;
+            Double totalTerpakai =
+                    a.getJumlahTerpakai() + jumlah;
 
-                a.setJumlahTerpakai(totalTerpakai);
+            a.setJumlahTerpakai(totalTerpakai);
 
-                anggaranRepository.save(a);
+            anggaranRepository.save(a);
+        }
+    }
+}
+    return "redirect:/transaksi";
+}
+@GetMapping("/transaksi/delete/{id}")
+public String hapusTransaksi(@PathVariable Long id){
+
+    Transaksi transaksi =
+            transaksiRepository.findById(id).orElse(null);
+
+    if(transaksi != null){
+
+        if(transaksi.getJenis().equalsIgnoreCase("Pengeluaran")){
+
+            List<Anggaran> listAnggaran =
+                    anggaranRepository.findByUserId(
+                            transaksi.getUser().getId()
+                    );
+
+            for(Anggaran a : listAnggaran){
+
+                if(a.getKategori().equalsIgnoreCase(
+                        transaksi.getKategori()
+                )){
+
+                    a.setJumlahTerpakai(
+                            a.getJumlahTerpakai()
+                            - transaksi.getJumlah()
+                    );
+
+                    anggaranRepository.save(a);
+                }
             }
         }
+
+        transaksiRepository.delete(transaksi);
     }
 
     return "redirect:/transaksi";
 }
-    @GetMapping("/transaksi/delete/{id}")
-    public String hapusTransaksi(@PathVariable Long id){
-
-        transaksiRepository.deleteById(id);
-
-        return "redirect:/transaksi";
-    }
 
     @GetMapping("/transaksi/edit/{id}")
     public String editPage(@PathVariable Long id, Model model){
@@ -115,31 +143,102 @@ public String tambahTransaksi(
         model.addAttribute("transaksi", transaksi);
 
         return "edit-transaksi";
+
     }
 
-    @PostMapping("/transaksi/update")
-    public String updateTransaksi(
+    
 
-            @RequestParam Long id,
-            @RequestParam String nama,
-            @RequestParam Double jumlah,
-            @RequestParam String jenis,
-            @RequestParam String kategori
-    ){
+@PostMapping("/transaksi/update")
+public String updateTransaksi(
 
-        Transaksi transaksi =
-                transaksiRepository.findById(id).orElse(null);
+        @RequestParam Long id,
+        @RequestParam String nama,
+        @RequestParam Double jumlah,
+        @RequestParam String jenis,
+        @RequestParam String kategori
+){
 
-        if(transaksi == null){
-            return "redirect:/transaksi";
-        }
+    Transaksi transaksi =
+            transaksiRepository.findById(id).orElse(null);
 
-        transaksi.setNama(nama);
-        transaksi.setJumlah(jumlah);
-        transaksi.setJenis(jenis);
-        transaksi.setKategori(kategori);
-        transaksiRepository.save(transaksi);
-
+    if(transaksi == null){
         return "redirect:/transaksi";
     }
+
+    // DATA LAMA
+    String kategoriLama =
+            transaksi.getKategori();
+
+    Double jumlahLama =
+            transaksi.getJumlah();
+
+    String jenisLama =
+            transaksi.getJenis();
+
+    // VALIDASI
+    if(jenis.equals("Pemasukan")){
+
+        if(!kategori.equals("Gaji")
+                && !kategori.equals("Bonus")
+                && !kategori.equals("Freelance")
+                && !kategori.equals("Investasi")){
+
+            return "redirect:/transaksi?error=kategori";
+        }
+    }
+
+    if(jenis.equals("Pengeluaran")){
+
+        if(!kategori.equals("Makan")
+                && !kategori.equals("Transport")
+                && !kategori.equals("Belanja")
+                && !kategori.equals("Hiburan")){
+
+            return "redirect:/transaksi?error=kategori";
+        }
+    }
+
+    // UPDATE DATA TRANSAKSI
+    transaksi.setNama(nama);
+    transaksi.setJumlah(jumlah);
+    transaksi.setJenis(jenis);
+    transaksi.setKategori(kategori);
+
+    transaksiRepository.save(transaksi);
+
+    // UPDATE ANGGARAN
+    if(jenisLama.equals("Pengeluaran")){
+
+        List<Anggaran> listAnggaran =
+                anggaranRepository.findByUserId(
+                        transaksi.getUser().getId()
+                );
+
+        for(Anggaran a : listAnggaran){
+
+            // Kurangi anggaran lama
+            if(a.getKategori().equalsIgnoreCase(kategoriLama)){
+
+                a.setJumlahTerpakai(
+                        a.getJumlahTerpakai() - jumlahLama
+                );
+
+                anggaranRepository.save(a);
+            }
+
+            // Tambah anggaran baru
+            if(jenis.equals("Pengeluaran")
+                    && a.getKategori().equalsIgnoreCase(kategori)){
+
+                a.setJumlahTerpakai(
+                        a.getJumlahTerpakai() + jumlah
+                );
+
+                anggaranRepository.save(a);
+            }
+        }
+    }
+
+    return "redirect:/transaksi";
+}
 }

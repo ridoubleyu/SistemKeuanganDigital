@@ -52,28 +52,71 @@
                name="id"
                th:value="${transaksi.id}">
 
-        <input type="text"
-               name="nama"
-               th:value="${transaksi.nama}">
+<input type="text"
+       name="nama"
+       th:value="${transaksi.nama}">
 
-        <input type="number"
-               name="jumlah"
-               th:value="${transaksi.jumlah}">
+<input type="number"
+       name="jumlah"
+       th:value="${transaksi.jumlah}">
 
-        <select name="jenis">
+<select name="jenis">
 
-            <option value="Pemasukan"
-                    th:selected="${transaksi.jenis == 'Pemasukan'}">
-                Pemasukan
-            </option>
+    <option value="Pemasukan"
+            th:selected="${transaksi.jenis == 'Pemasukan'}">
+        Pemasukan
+    </option>
 
-            <option value="Pengeluaran"
-                    th:selected="${transaksi.jenis == 'Pengeluaran'}">
-                Pengeluaran
-            </option>
+    <option value="Pengeluaran"
+            th:selected="${transaksi.jenis == 'Pengeluaran'}">
+        Pengeluaran
+    </option>
 
-        </select>
+</select>
 
+<select name="kategori">
+
+    <option value="Makan"
+            th:selected="${transaksi.kategori == 'Makan'}">
+        Makan
+    </option>
+
+    <option value="Transport"
+            th:selected="${transaksi.kategori == 'Transport'}">
+        Transport
+    </option>
+
+    <option value="Belanja"
+            th:selected="${transaksi.kategori == 'Belanja'}">
+        Belanja
+    </option>
+
+    <option value="Hiburan"
+            th:selected="${transaksi.kategori == 'Hiburan'}">
+        Hiburan
+    </option>
+
+    <option value="Gaji"
+            th:selected="${transaksi.kategori == 'Gaji'}">
+        Gaji
+    </option>
+
+    <option value="Bonus"
+            th:selected="${transaksi.kategori == 'Bonus'}">
+        Bonus
+    </option>
+
+    <option value="Freelance"
+            th:selected="${transaksi.kategori == 'Freelance'}">
+        Freelance
+    </option>
+
+    <option value="Investasi"
+            th:selected="${transaksi.kategori == 'Investasi'}">
+        Investasi
+    </option>
+
+</select>
         <button type="submit">
             Update
         </button>

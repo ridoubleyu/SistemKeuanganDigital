@@ -540,6 +540,7 @@
                     </span>
                 </td>
 
+
                 <!-- PROGRESS -->
                 <td>
 
@@ -558,6 +559,17 @@
 
         <div class="progress-text"
              th:text="${#numbers.formatDecimal((t.jumlahTerkumpul * 100.0 / t.targetJumlah),1,1)} + '%'">
+        </div>
+
+        <div
+            th:if="${param.error}"
+            style="
+            background:#fee2e2;
+            color:#dc2626;
+            padding:12px;
+            border-radius:12px;
+            margin-bottom:15px;">
+            ❌ Saldo tidak mencukupi
         </div>
 
     </div>

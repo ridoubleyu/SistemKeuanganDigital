@@ -64,4 +64,51 @@ public String tambahAnggaran(
 
         return "redirect:/anggaran";
     }
+
+    @GetMapping("/anggaran/edit/{id}")
+public String editAnggaran(
+        @PathVariable Long id,
+        Model model){
+
+    Anggaran anggaran =
+            anggaranRepository.findById(id)
+                    .orElse(null);
+
+    if(anggaran == null){
+        return "redirect:/anggaran";
+    }
+
+    model.addAttribute(
+            "anggaran",
+            anggaran
+    );
+
+    return "edit-anggaran";
+}
+
+@PostMapping("/anggaran/update")
+public String updateAnggaran(
+
+        @RequestParam Long id,
+        @RequestParam String periode,
+        @RequestParam String kategori,
+        @RequestParam Double jumlahTarget
+){
+
+    Anggaran anggaran =
+            anggaranRepository.findById(id)
+                    .orElse(null);
+
+    if(anggaran == null){
+        return "redirect:/anggaran";
+    }
+
+    anggaran.setPeriode(periode);
+    anggaran.setKategori(kategori);
+    anggaran.setJumlahTarget(jumlahTarget);
+
+    anggaranRepository.save(anggaran);
+
+    return "redirect:/anggaran";
+}
 }
