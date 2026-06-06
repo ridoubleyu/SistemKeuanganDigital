@@ -56,6 +56,8 @@ public String login(
         user.setEmail(email);
         user.setPassword(password);
 
+        user.setRole("USER");
+
         userRepository.save(user);
 
         return "redirect:/login";

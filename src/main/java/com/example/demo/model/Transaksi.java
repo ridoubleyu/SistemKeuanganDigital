@@ -84,4 +84,13 @@ public void setTanggal(LocalDate tanggal) {
     this.kategori = kategori;
     }
 
+    public String getJumlahRupiah() {
+
+    if (jumlah == null) {
+        return "Rp 0";
+    }
+
+    return String.format("Rp %,.0f", jumlah)
+            .replace(",", ".");
+}
 }

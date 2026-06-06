@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Tabungan;
 import com.example.demo.model.User;
+import com.example.demo.service.DashboardService;
+import com.example.demo.model.DashboardData;
 import com.example.demo.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @Controller
 public class DashboardController {
+
+    @Autowired
+    private DashboardService dashboardService;
 
     @Autowired
     private TransaksiRepository transaksiRepository;
@@ -36,40 +41,27 @@ public class DashboardController {
         return "register";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(
-            Model model,
-            HttpSession session
-    ){
+@GetMapping("/dashboard")
+public String dashboard(
+        HttpSession session,
+        Model model) {
 
-        User user = (User) session.getAttribute("user");
+    User user = (User) session.getAttribute("user");
 
-        if(user == null){
-            return "redirect:/login";
-        }
-
-        Double pemasukan =
-                transaksiRepository.totalPemasukan(user.getId());
-
-        Double pengeluaran =
-                transaksiRepository.totalPengeluaran(user.getId());
-
-        Double saldo =
-                pemasukan - pengeluaran;
-
-        Double totalTabungan = 0.0;
-
-        for(Tabungan t :
-                tabunganRepository.findByUserId(user.getId())){
-
-            totalTabungan += t.getJumlahTerkumpul();
-        }
-
-        model.addAttribute("pemasukan", pemasukan);
-        model.addAttribute("pengeluaran", pengeluaran);
-        model.addAttribute("saldo", saldo);
-        model.addAttribute("totalTabungan", totalTabungan);
-
-        return "dashboard";
+    if (user == null) {
+        return "redirect:/login";
     }
+
+    DashboardData data =
+            dashboardService.getDashboardData(user.getId());
+
+    model.addAttribute("data", data);
+
+    model.addAttribute(
+            "listTransaksi",
+            transaksiRepository.findByUser_Id(user.getId())
+    );
+
+    return "dashboard";
+}
 }

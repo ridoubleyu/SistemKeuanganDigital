@@ -594,75 +594,27 @@
                 <th>Aksi</th>
             </tr>
 
-<tr th:each="a, stat : ${listAnggaran}">
-
-    <td th:text="${stat.count}"></td>
-
-    <td th:text="${a.periode}"></td>
-
-    <td th:text="${a.kategori}"></td>
+<tr th:each="anggaran : ${listAnggaran}">
+    <td th:text="${anggaran.periode}"></td>
+    <td th:text="${anggaran.kategori}"></td>
+    <td th:text="${anggaran.jumlahTarget}"></td>
 
     <td>
-        <span class="badge target"
-              th:text="|Rp ${#numbers.formatInteger(a.jumlahTarget, 0, 'POINT')}|">
-        </span>
-    </td>
-
-    <td>
-        <span class="badge terpakai"
-              th:text="|Rp ${#numbers.formatInteger(a.jumlahTerpakai, 0, 'POINT')}|">
-        </span>
-    </td>
-
-    <td>
-        <span class="badge sisa"
-              th:text="|Rp ${#numbers.formatInteger(a.jumlahTarget - a.jumlahTerpakai, 0, 'POINT')}|">
-        </span>
-    </td>
-
-    <td>
-
-        <a class="edit-btn"
-        th:href="@{/anggaran/edit/{id}(id=${a.anggaranId})}">
-            ✏️ Edit
+        <a th:href="@{/anggaran/edit/{id}(id=${anggaran.anggaranId})}">
+            Edit
         </a>
-
-        <a class="hapus"
-        th:href="@{/anggaran/delete/{id}(id=${a.anggaranId})}">
-            🗑️ Hapus
-        </a>
-
     </td>
 
+    <td>
+        <a th:href="@{/anggaran/delete/{id}(id=${anggaran.anggaranId})}">
+            Hapus
+        </a>
+    </td>
 </tr>
 
         </table>
 
     </div>
-
-    <form action="/anggaran/update" method="post">
-
-    <input type="hidden"
-           name="id"
-           th:value="${anggaran.anggaranId}">
-
-    <input type="text"
-           name="periode"
-           th:value="${anggaran.periode}">
-
-    <input type="text"
-           name="kategori"
-           th:value="${anggaran.kategori}">
-
-    <input type="number"
-           name="jumlahTarget"
-           th:value="${anggaran.jumlahTarget}">
-
-    <button type="submit">
-        Simpan
-    </button>
-
-</form>
 
 </div>
 

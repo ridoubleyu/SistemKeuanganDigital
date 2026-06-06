@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Anggaran</title>
+</head>
+<body>
+
+<h2>Edit Anggaran</h2>
+
+<form action="/anggaran/update" method="post">
+
+    <input type="hidden"
+           name="id"
+           th:value="${anggaran.anggaranId}">
+
+    <div>
+        <label>Periode</label>
+        <input type="text"
+               name="periode"
+               th:value="${anggaran.periode}">
+    </div>
+
+    <div>
+        <label>Kategori</label>
+        <input type="text"
+               name="kategori"
+               th:value="${anggaran.kategori}">
+    </div>
+
+    <div>
+        <label>Jumlah Target</label>
+        <input type="number"
+               step="0.01"
+               name="jumlahTarget"
+               th:value="${anggaran.jumlahTarget}">
+    </div>
+
+    <button type="submit">
+        Simpan Perubahan
+    </button>
+
+</form>
+
+<br>
+
+<a href="/anggaran">Kembali</a>
+
+</body>
+</html>

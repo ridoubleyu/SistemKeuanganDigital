@@ -9,10 +9,12 @@ import java.util.List;
 
 public interface TransaksiRepository
         extends JpaRepository<Transaksi, Long> {
-
+    
     List<Transaksi> findByUser(User user);
 
     List<Transaksi> findByUser_Id(Long userId);
+
+    Long countByUser_Id(Long userId);
 
 @Query("""
 SELECT COALESCE(SUM(t.jumlah),0)
