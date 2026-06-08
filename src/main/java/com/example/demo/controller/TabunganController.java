@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Tabungan;
 import com.example.demo.repository.TabunganRepository;
 import com.example.demo.repository.TransaksiRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.model.Transaksi;
 import com.example.demo.model.User;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import org.springframework.security.core.Authentication;
+
 
 @Controller
 public class TabunganController {
@@ -19,25 +22,31 @@ public class TabunganController {
     private TabunganRepository tabunganRepository;
     @Autowired
     private TransaksiRepository transaksiRepository;
+        @Autowired
+    private UserRepository userRepository;
 
-@GetMapping("/tabungan")
-public String tabunganPage(
-        Model model,
-        HttpSession session){
+    @GetMapping("/tabungan")
+    public String tabunganPage(
+            Authentication authentication,
+            Model model
+    ){
 
-    User user = (User) session.getAttribute("user");
+        String email = authentication.getName();
 
-    if(user == null){
-        return "redirect:/login";
+        User user = userRepository.findByEmail(email)
+                .orElse(null);
+
+        if(user == null){
+            return "redirect:/login";
+        }
+
+        model.addAttribute(
+                "listTabungan",
+                tabunganRepository.findByUserId(user.getId())
+        );
+
+        return "tabungan";
     }
-
-    model.addAttribute(
-        "listTabungan",
-        tabunganRepository.findByUserId(user.getId())
-    );
-
-    return "tabungan";
-}
     @PostMapping("/tabungan")
     public String tambahTabungan(
            HttpSession session,

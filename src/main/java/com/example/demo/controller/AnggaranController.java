@@ -2,12 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Anggaran;
 import com.example.demo.repository.AnggaranRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+
 
 @Controller
 public class AnggaranController {
@@ -15,12 +18,19 @@ public class AnggaranController {
     @Autowired
     private AnggaranRepository anggaranRepository;
 
+        @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/anggaran")
     public String anggaranPage(
-            Model model,
-            HttpSession session) {
+            Authentication authentication,
+            Model model
+    ){
 
-        User user = (User) session.getAttribute("user");
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElse(null);
 
         if(user == null){
             return "redirect:/login";

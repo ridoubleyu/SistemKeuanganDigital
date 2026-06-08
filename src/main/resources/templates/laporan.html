@@ -1,6 +1,9 @@
+```html
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,9 +20,51 @@
 }
 
 body{
-    font-family:'Poppins',sans-serif;
+    font-family:'Poppins', sans-serif;
     background:#f8fafc;
     color:#1e293b;
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* BACKGROUND */
+
+body::before{
+    content:'';
+    position:fixed;
+    width:450px;
+    height:450px;
+    background:rgba(59,130,246,0.08);
+    border-radius:50%;
+    top:-120px;
+    right:-100px;
+    z-index:-1;
+    animation:float1 8s ease-in-out infinite;
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    width:350px;
+    height:350px;
+    background:rgba(147,51,234,0.08);
+    border-radius:50%;
+    bottom:-120px;
+    left:-80px;
+    z-index:-1;
+    animation:float2 10s ease-in-out infinite;
+}
+
+@keyframes float1{
+    0%{ transform:translateY(0px); }
+    50%{ transform:translateY(20px); }
+    100%{ transform:translateY(0px); }
+}
+
+@keyframes float2{
+    0%{ transform:translateY(0px); }
+    50%{ transform:translateY(-20px); }
+    100%{ transform:translateY(0px); }
 }
 
 /* SIDEBAR */
@@ -40,17 +85,54 @@ body{
     #2563eb
     );
 
+    background-size:400% 400%;
+    animation:gradientMove 12s ease infinite;
+
     padding:30px 20px;
+    color:white;
+    overflow-y:auto;
     z-index:1000;
+    box-shadow:6px 0 25px rgba(37,99,235,0.25);
 }
 
-.logo{
+@keyframes gradientMove{
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+/* LOGO */
+
+.sidebar h2{
     text-align:center;
-    color:white;
+    margin-bottom:50px;
     font-size:30px;
     font-weight:700;
-    margin-bottom:50px;
+    letter-spacing:1px;
+    position:relative;
 }
+
+.sidebar h2::after{
+    content:'';
+    width:80px;
+    height:4px;
+    border-radius:10px;
+    background:linear-gradient(90deg,#60a5fa,#c084fc);
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:-12px;
+}
+
+/* MENU */
 
 .menu{
     display:flex;
@@ -66,16 +148,39 @@ body{
     gap:14px;
     padding:17px 18px;
     border-radius:18px;
-    transition:0.3s;
+    transition:0.35s ease;
+    font-size:15px;
+    font-weight:500;
+    position:relative;
+    overflow:hidden;
+}
+
+.sidebar a::before{
+    content:'';
+    position:absolute;
+    width:0%;
+    height:100%;
+    left:0;
+    top:0;
+    background:rgba(255,255,255,0.1);
+    transition:0.4s;
+}
+
+.sidebar a:hover::before{
+    width:100%;
 }
 
 .sidebar a:hover{
-    background:rgba(255,255,255,0.15);
-    transform:translateX(5px);
+    transform:translateX(8px) scale(1.02);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
 .sidebar a.active{
     background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.15);
+    font-weight:600;
+    box-shadow:0 10px 25px rgba(255,255,255,0.08);
 }
 
 /* MAIN */
@@ -83,25 +188,42 @@ body{
 .main{
     margin-left:260px;
     padding:35px;
+    min-height:100vh;
 }
 
-/* HEADER */
+/* TOPBAR */
 
 .topbar{
-    background:white;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    margin-bottom:30px;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);
+    padding:28px 35px;
+    border-radius:28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.06);
+    margin-bottom:35px;
 }
 
 .topbar h1{
-    font-size:34px;
-    margin-bottom:10px;
+    font-size:36px;
+    margin-bottom:8px;
+    color:#1e293b;
 }
 
 .topbar p{
     color:#64748b;
+    font-size:15px;
+}
+
+.profile{
+    background:linear-gradient(135deg,#dbeafe,#ede9fe);
+    padding:12px 18px;
+    border-radius:16px;
+    color:#4338ca;
+    font-weight:600;
 }
 
 /* CARD */
@@ -109,8 +231,8 @@ body{
 .card{
     background:white;
     padding:30px;
-    border-radius:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    border-radius:28px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.06);
     margin-bottom:30px;
 }
 
@@ -119,7 +241,7 @@ body{
     margin-bottom:20px;
 }
 
-/* FILTER */
+/* FORM */
 
 .form-grid{
     display:grid;
@@ -134,6 +256,7 @@ body{
 
 .input-group label{
     margin-bottom:8px;
+    font-weight:500;
 }
 
 input{
@@ -141,7 +264,14 @@ input{
     border:1px solid #d1d5db;
     border-radius:14px;
     font-size:14px;
+    outline:none;
 }
+
+input:focus{
+    border-color:#2563eb;
+}
+
+/* BUTTON */
 
 .btn{
     margin-top:25px;
@@ -152,31 +282,11 @@ input{
     border-radius:15px;
     cursor:pointer;
     font-weight:600;
+    transition:0.3s;
 }
 
-/* TABLE */
-
-.table-box{
-    background:white;
-    border-radius:25px;
-    overflow:hidden;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-table th{
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
-    color:white;
-    padding:18px;
-}
-
-table td{
-    padding:18px;
-    border-bottom:1px solid #eee;
+.btn:hover{
+    transform:translateY(-2px);
 }
 
 .export-btn{
@@ -188,10 +298,69 @@ table td{
     border-radius:14px;
     font-weight:600;
     margin-bottom:20px;
+    transition:0.3s;
 }
 
 .export-btn:hover{
-    opacity:0.9;
+    transform:translateY(-2px);
+}
+
+/* TABLE */
+
+.table-container{
+    background:white;
+    border-radius:25px;
+    overflow-x:auto;
+    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+table th{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    text-align:left;
+    padding:18px;
+    font-size:15px;
+}
+
+table td{
+    padding:18px;
+    border-bottom:1px solid #e5e7eb;
+    font-size:14px;
+}
+
+table tr{
+    transition:0.3s;
+}
+
+table tr:hover{
+    background:#f8fafc;
+    transform:scale(1.01);
+}
+
+/* BADGE */
+
+.badge{
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    display:inline-block;
+}
+
+.pemasukan{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.pengeluaran{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
 /* RESPONSIVE */
@@ -202,14 +371,24 @@ table td{
         width:100%;
         height:auto;
         position:relative;
+        border-radius:0 0 25px 25px;
     }
 
     .main{
         margin-left:0;
+        padding:20px;
     }
 
     .form-grid{
         grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:25px;
+    }
+
+    .topbar h1{
+        font-size:28px;
     }
 
 }
@@ -224,30 +403,28 @@ table td{
 
 <div class="sidebar">
 
-    <div class="logo">
-        🪙 CashMate
-    </div>
+    <h2>🪙 CashMate</h2>
 
     <div class="menu">
 
         <a href="/dashboard">
-            📊 Dashboard
+            <span>📊</span> Dashboard
         </a>
 
         <a href="/transaksi">
-            💸 Transaksi
+            <span>💸</span> Transaksi
         </a>
 
         <a href="/anggaran">
-            📈 Anggaran
+            <span>📈</span> Anggaran
         </a>
 
         <a href="/tabungan">
-            🎯 Tabungan
+            <span>🎯</span> Tabungan
         </a>
 
         <a href="/laporan" class="active">
-            🧾 Laporan
+            <span>🧾</span> Laporan
         </a>
 
     </div>
@@ -258,13 +435,18 @@ table td{
 
 <div class="main">
 
+    <!-- TOPBAR -->
+
     <div class="topbar">
 
-        <h1>📑 Laporan Keuangan</h1>
+        <div>
+            <h1>Laporan Keuangan 📑</h1>
+            <p>Ringkasan transaksi pemasukan dan pengeluaran</p>
+        </div>
 
-        <p>
-            Ringkasan transaksi pemasukan dan pengeluaran.
-        </p>
+        <div class="profile">
+            📊 CashMate Report
+        </div>
 
     </div>
 
@@ -306,7 +488,7 @@ table td{
 
     <!-- TABLE -->
 
-    <div class="table-box">
+    <div class="table-container">
 
         <table>
 
@@ -318,17 +500,31 @@ table td{
                 <th>Jumlah</th>
             </tr>
 
-<tr th:each="t : ${listTransaksi}">
+            <tr th:each="t : ${listTransaksi}">
 
-<td th:text="${#temporals.format(t.tanggal, 'dd-MM-yyyy')}"></td>
-    <td th:text="${t.nama}"></td>
+                <td th:text="${#temporals.format(t.tanggal, 'dd-MM-yyyy')}"></td>
 
-    <td th:text="${t.kategori}"></td>
+                <td th:text="${t.nama}"></td>
 
-    <td th:text="${t.jenis}"></td>
+                <td th:text="${t.kategori}"></td>
 
-<td th:text="${'Rp ' + t.jumlah}"></td>
-</tr>
+                <td>
+
+                    <span th:if="${t.jenis == 'Pemasukan'}"
+                          class="badge pemasukan">
+                        Pemasukan
+                    </span>
+
+                    <span th:if="${t.jenis == 'Pengeluaran'}"
+                          class="badge pengeluaran">
+                        Pengeluaran
+                    </span>
+
+                </td>
+
+                <td th:text="${t.jumlahRupiah}"></td>
+
+            </tr>
 
         </table>
 
@@ -338,3 +534,4 @@ table td{
 
 </body>
 </html>
+```

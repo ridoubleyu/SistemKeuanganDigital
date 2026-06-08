@@ -5,6 +5,8 @@ import com.example.demo.model.Transaksi;
 import com.example.demo.model.User;
 import com.example.demo.repository.TransaksiRepository;
 import com.example.demo.repository.AnggaranRepository;
+import com.example.demo.repository.UserRepository;
+
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import java.time.LocalDate;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+
 
 @Controller
 public class TransaksiController {
@@ -24,12 +28,19 @@ public class TransaksiController {
     @Autowired
     private AnggaranRepository anggaranRepository;
 
+    @Autowired
+private UserRepository userRepository;
+
 @GetMapping("/transaksi")
 public String transaksiPage(
-       Model model,
-        HttpSession session){
+        Authentication authentication,
+        Model model
+){
 
-    User user = (User) session.getAttribute("user");
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElse(null);
 
     if(user == null){
         return "redirect:/login";
@@ -37,11 +48,11 @@ public String transaksiPage(
 
     model.addAttribute(
             "listTransaksi",
-            transaksiRepository.findByUser(user)
+            transaksiRepository.findByUser_Id(user.getId())
     );
 
     return "transaksi";
-} 
+}
 
 @PostMapping("/transaksi")
 public String tambahTransaksi(

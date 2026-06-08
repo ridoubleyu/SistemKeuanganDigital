@@ -437,33 +437,26 @@
                 font-size:28px;
             }
 
-            .logout-btn{
-    text-decoration:none;
-    background:#ef4444;
-    color:white;
-    padding:12px 22px;
-    border-radius:14px;
-    font-weight:600;
-    transition:0.3s;
-    box-shadow:0 8px 20px rgba(239,68,68,0.25);
-}
+        .logout-btn{
+            text-decoration:none;
+            background:#ef4444;
+            color:white;
+            padding:12px 22px;
+            border-radius:14px;
+            font-weight:600;
+            transition:0.3s;
+            box-shadow:0 8px 20px rgba(239,68,68,0.25);
+        }
 
-.logout-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 12px 25px rgba(239,68,68,0.35);
-}
+        .logout-btn:hover{
+            transform:translateY(-2px);
+        }
 
         }
 
     </style>
 </head>
-    <script>
-function confirmLogout() {
-    if (confirm("Yakin mau keluar dari aplikasi?")) {
-        window.location.href = "/logout";
-    }
-}
-</script>
+
 <body>
 
 <!-- SIDEBAR -->
@@ -489,7 +482,7 @@ function confirmLogout() {
             <span>🎯</span> Tabungan
         </a>
 
-        <a href="/laporan" class="active">
+        <a href="/laporan">
             🧾 Laporan
         </a>
 
@@ -512,9 +505,9 @@ function confirmLogout() {
             👋 Selamat Datang
         </div>
 
-        <a href="#" onclick="confirmLogout()">
-    🚪 Logout
-</a>
+        <a href="/logout" class="logout-btn">
+            🚪 Logout
+        </a>
 
 <script>
 function confirmLogout(){

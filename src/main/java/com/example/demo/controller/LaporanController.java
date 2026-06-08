@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Transaksi;
 import com.example.demo.model.User;
 import com.example.demo.repository.TransaksiRepository;
+import com.example.demo.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -22,13 +25,19 @@ public class LaporanController {
 
     @Autowired
     private TransaksiRepository transaksiRepository;
-    @GetMapping("/laporan")
-    public String laporan(
-            Model model,
-            HttpSession session
-    ) {
+        @Autowired
+    private UserRepository userRepository;
+    
+  @GetMapping("/laporan")
+    public String laporanPage(
+            Authentication authentication,
+            Model model
+    ){
 
-        User user = (User) session.getAttribute("user");
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElse(null);
 
         if(user == null){
             return "redirect:/login";
@@ -36,7 +45,7 @@ public class LaporanController {
 
         model.addAttribute(
                 "listTransaksi",
-                transaksiRepository.findByUser(user)
+                transaksiRepository.findByUser_Id(user.getId())
         );
 
         return "laporan";
