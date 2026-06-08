@@ -279,11 +279,9 @@
         }
 
         table{
-            width:max-content;
-            min-width:100%;
-            border-collapse:collapse;
-
-        }
+    width:100%;
+    border-collapse:collapse;
+}
 
         table th{
             background:#2563eb;
@@ -355,32 +353,31 @@
 
         /* TAMBAH UANG */
         .tambah-form{
-            display:flex;
-            gap:10px;
-            align-items:center;
-        }
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
-        .tambah-form input{
-            width:120px;
-            padding:10px 14px;
-            border:1px solid #d1d5db;}
+.tambah-form input{
+    width:120px;
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+}
 
-        .mini-btn{
-            padding:12px 18px;
-            border:none;
-            border-radius:12px;
-            background:#2563eb;
-            color:white;
-            cursor:pointer;
-            font-size:13px;
-            font-weight:600;
-            transition:0.3s;
-            white-space:nowrap;
-        }
+.btn-tambah{
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
 
-        .mini-btn:hover{
-            transform:translateY(-2px);
-        }
+.btn-tambah:hover{
+    transform:translateY(-2px);
+}
 
         /* RESPONSIVE */
         @media(max-width:768px){
@@ -513,6 +510,7 @@
                 <th>Sisa</th>
                 <th>Progress</th>
                 <th>Tambah Uang</th>
+            
             </tr>
 
                 <tr th:each="t, stat : ${listTabungan}">
@@ -544,9 +542,6 @@
                 <!-- PROGRESS -->
                 <td>
 
-                    <!-- PROGRESS -->
-<td>
-
     <div class="progress-wrapper">
 
         <div class="progress-box">
@@ -577,24 +572,24 @@
 </td>
 
                 <!-- FORM TAMBAH -->
-                <td>
+               
 
-                    <form class="tambah-form"
-                          th:action="@{'/tabungan/tambah/' + ${t.tabunganId}}"
-                          method="post">
+                    <td>
+    <form th:action="@{/tabungan/tambah/{id}(id=${t.tabunganId})}"
+          method="post"
+          class="tambah-form">
 
-                        <input type="number"
-                               name="nominal"
-                               placeholder="Tambah uang">
+        <input type="number"
+               name="jumlah"
+               placeholder="Nominal"
+               required>
 
-                        <button type="submit" class="mini-btn">
-                            ➕ Tambah
-                        </button>
+        <button type="submit" class="btn-tambah">
+            ➕ Tambah
+        </button>
 
-                    </form>
-
-                </td>
-
+    </form>
+</td>
             </tr>
 
         </table>
