@@ -272,8 +272,8 @@
         }
 
         .card p{
-            font-size:32px;
-            font-weight:700;
+            font-size:20px;
+            font-weight:600;
             position:relative;
             z-index:2;
         }
@@ -465,7 +465,7 @@
 
         <div class="card">
             <h3>🪙 Total Saldo</h3>
-            <span th:text="${totalSaldo}"></span>
+            <p th:text="${totalSaldo}"></span>
             </div>
 
         <div class="card">
@@ -498,8 +498,7 @@
                 <th>Aksi</th>
             </tr>
 
-            <tr th:each="u : ${users}">
-
+                <tr th:each="u : ${users}">
                 <td th:text="${u.id}"></td>
 
                 <td th:text="${u.nama}"></td>

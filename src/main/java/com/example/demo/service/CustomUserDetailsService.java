@@ -21,32 +21,22 @@ public class CustomUserDetailsService
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(
-            String email
-    ) throws UsernameNotFoundException {
+@Override
+public UserDetails loadUserByUsername(String email)
+        throws UsernameNotFoundException {
 
-User user = userRepository
-        .findByEmail(email)
-        .orElse(null);
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new UsernameNotFoundException("User not found"));
 
-        if(user == null){
-            throw new UsernameNotFoundException(
-                    "User tidak ditemukan"
-            );
-        }
+    System.out.println("LOGIN USER: " + user.getEmail());
+    System.out.println("PASSWORD DB: " + user.getPassword());
+    System.out.println("ROLE USER: " + user.getRole());
 
-        return new org.springframework.security.core.userdetails.User(
-
-                user.getEmail(),
-
-                user.getPassword(),
-
-                List.of(
-                        new SimpleGrantedAuthority(
-                                "ROLE_" + user.getRole()
-                        )
-                )
-        );
-    }
+    return org.springframework.security.core.userdetails.User.builder()
+            .username(user.getEmail())
+            .password(user.getPassword())
+            .authorities("ROLE_" + user.getRole())
+            .build();
+}
 }

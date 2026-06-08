@@ -18,29 +18,7 @@ public class AuthWebController {
     private UserRepository userRepository;
 
     // LOGIN
-@PostMapping("/login")
-public String login(
-        @RequestParam String email,
-        @RequestParam String password,
-        HttpSession session
-) {
 
-    Optional<User> userOpt = userRepository.findByEmail(email);
-
-    if(userOpt.isPresent()) {
-
-        User user = userOpt.get();
-
-        if(user.getPassword().equals(password)) {
-
-            session.setAttribute("user", user);
-
-            return "redirect:/dashboard";
-        }
-    }
-
-    return "redirect:/login";
-}
 
     // REGISTER
     @PostMapping("/register")

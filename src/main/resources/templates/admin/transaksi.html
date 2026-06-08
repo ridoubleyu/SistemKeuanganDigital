@@ -31,11 +31,12 @@ xmlns:th="http://www.thymeleaf.org">
         }
 
         /* SIDEBAR */
-
         .sidebar{
             width:260px;
             height:100vh;
             position:fixed;
+            left:0;
+            top:0;
 
             background:
             linear-gradient(
@@ -46,27 +47,98 @@ xmlns:th="http://www.thymeleaf.org">
             #2563eb
             );
 
+            background-size:400% 400%;
+            animation:gradientMove 12s ease infinite;
+
             padding:30px 20px;
             color:white;
+            overflow-y:auto;
+            z-index:1000;
+            box-shadow:6px 0 25px rgba(37,99,235,0.25);
+        }
+
+        @keyframes gradientMove{
+            0%{
+                background-position:0% 50%;
+            }
+
+            50%{
+                background-position:100% 50%;
+            }
+
+            100%{
+                background-position:0% 50%;
+            }
         }
 
         .sidebar h2{
             text-align:center;
-            margin-bottom:40px;
+            margin-bottom:50px;
+            font-size:30px;
+            font-weight:700;
+            letter-spacing:1px;
+            position:relative;
+        }
+
+        .sidebar h2::after{
+            content:'';
+            width:80px;
+            height:4px;
+            border-radius:10px;
+            background:linear-gradient(90deg,#60a5fa,#c084fc);
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+            bottom:-12px;
+        }
+
+        .menu{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
         }
 
         .sidebar a{
-            display:block;
-            color:white;
             text-decoration:none;
-            padding:16px;
-            border-radius:14px;
-            margin-bottom:12px;
-            transition:0.3s;
+            color:white;
+            display:flex;
+            align-items:center;
+            gap:14px;
+            padding:17px 18px;
+            border-radius:18px;
+            transition:0.35s ease;
+            font-size:15px;
+            font-weight:500;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .sidebar a::before{
+            content:'';
+            position:absolute;
+            width:0%;
+            height:100%;
+            left:0;
+            top:0;
+            background:rgba(255,255,255,0.1);
+            transition:0.4s;
+        }
+
+        .sidebar a:hover::before{
+            width:100%;
         }
 
         .sidebar a:hover{
-            background:rgba(255,255,255,0.12);
+            transform:translateX(8px) scale(1.02);
+            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .sidebar a.active{
+            background:rgba(255,255,255,0.18);
+            backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,0.15);
+            font-weight:600;
+            box-shadow:0 10px 25px rgba(255,255,255,0.08);
         }
 
         .active{
@@ -168,7 +240,7 @@ xmlns:th="http://www.thymeleaf.org">
 
     <div class="menu">
 
-        <a href="/admin/dashboard-admin" >
+        <a href="/admin" >
             <span>📊</span> Dashboard
         </a>
 
@@ -202,81 +274,28 @@ xmlns:th="http://www.thymeleaf.org">
 
     <div class="card">
 
-        <table>
+<table>
 
-            <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nama</th>
+        <th>Jenis</th>
+        <th>Jumlah</th>
+    </tr>
 
-            <tr>
+    <tr th:each="t : ${transaksi}">
 
-                <th>No</th>
-                <th>User</th>
-                <th>Judul</th>
-                <th>Kategori</th>
-                <th>Tipe</th>
-                <th>Nominal</th>
-                <th>Tanggal</th>
-                <th>Aksi</th>
+        <td th:text="${t.id}"></td>
 
-            </tr>
+        <td th:text="${t.nama}"></td>
 
-            </thead>
+        <td th:text="${t.jenis}"></td>
 
-<tbody>
+        <td th:text="${t.jumlah}"></td>
 
-<tr th:each="t, iter : ${transactions}">
+    </tr>
 
-    <td th:text="${iter.index + 1}"></td>
-
-    <td th:text="${t.user != null ? t.user.nama : 'Tidak Ada User'}"></td>
-
-    <td th:text="${t.nama}"></td>
-
-    <td th:text="${t.kategori}"></td>
-
-    <td>
-
-        <span
-        th:if="${t.jenis == 'Pemasukan'}"
-        class="income">
-
-            Pemasukan
-
-        </span>
-
-        <span
-        th:if="${t.jenis == 'Pengeluaran'}"
-        class="expense">
-
-            Pengeluaran
-
-        </span>
-
-    </td>
-
-    <td th:text="${t.jumlahRupiah}"></td>
-
-    <td th:text="${t.tanggal}"></td>
-
-    <td>
-
-        <a
-        th:href="@{/admin/transaksi/delete/{id}(id=${t.id})}">
-
-            <button class="btn delete">
-
-                Hapus
-
-            </button>
-
-        </a>
-
-    </td>
-
-</tr>
-
-</tbody>
-
-        </table>
+</table>
 
     </div>
 

@@ -31,4 +31,24 @@ WHERE t.user.id = :userId
 AND t.jenis = 'Pengeluaran'
 """)
 Double totalPengeluaran(Long userId);
+
+@Query("""
+    SELECT SUM(t.jumlah)
+    FROM Transaksi t
+""")
+Double getTotalSaldo();
+
+@Query("""
+    SELECT SUM(t.jumlah)
+    FROM Transaksi t
+    WHERE t.jenis = 'Pemasukan'
+""")
+Double getTotalPemasukan();
+
+@Query("""
+    SELECT SUM(t.jumlah)
+    FROM Transaksi t
+    WHERE t.jenis = 'Pengeluaran'
+""")
+Double getTotalPengeluaran();
 }

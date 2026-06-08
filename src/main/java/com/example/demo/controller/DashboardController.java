@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class DashboardController {
 
     @Autowired
     private DashboardService dashboardService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private TransaksiRepository transaksiRepository;
@@ -43,10 +47,13 @@ public class DashboardController {
 
 @GetMapping("/dashboard")
 public String dashboard(
-        HttpSession session,
+        Authentication authentication,
         Model model) {
 
-    User user = (User) session.getAttribute("user");
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElse(null);
 
     if (user == null) {
         return "redirect:/login";
