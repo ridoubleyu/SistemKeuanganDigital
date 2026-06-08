@@ -273,15 +273,16 @@
         .table-box{
             background:white;
             border-radius:25px;
-            overflow:hidden;
-            overflow-x:auto;
             box-shadow:0 8px 20px rgba(0,0,0,0.06);
+            overflow-x:auto;
+            padding-bottom:10px;
         }
 
         table{
-            width:100%;
+            width:max-content;
+            min-width:100%;
             border-collapse:collapse;
-            min-width:1000px;
+
         }
 
         table th{
@@ -329,7 +330,7 @@
 
         /* PROGRESS */
         .progress-wrapper{
-            min-width:180px;
+            width:220px;
         }
 
         .progress-box{
@@ -337,7 +338,6 @@
             height:18px;
             background:#e5e7eb;
             border-radius:20px;
-            overflow:hidden;
             margin-bottom:8px;
         }
 
@@ -361,9 +361,9 @@
         }
 
         .tambah-form input{
-            min-width:150px;
-            margin:0;
-        }
+            width:120px;
+            padding:10px 14px;
+            border:1px solid #d1d5db;}
 
         .mini-btn{
             padding:12px 18px;
@@ -506,7 +506,7 @@
         <table>
 
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama Target</th>
                 <th>Target</th>
                 <th>Terkumpul</th>
@@ -518,7 +518,7 @@
                 <tr th:each="t, stat : ${listTabungan}">
                     <td th:text="${stat.count}"></td>
 
-                <td th:text="${t.tabunganId}"></td>
+                
 
                 <td th:text="${t.namaTarget}"></td>
 
