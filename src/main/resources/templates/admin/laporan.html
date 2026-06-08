@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html
+xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Laporan Admin</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f8fafc;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0f172a,
+    #1e1b4b,
+    #312e81,
+    #2563eb
+    );
+
+    padding:30px 20px;
+    color:white;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:16px;
+    border-radius:14px;
+    margin-bottom:12px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,0.12);
+}
+
+.active{
+    background:rgba(255,255,255,0.18);
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    flex:1;
+    padding:35px;
+}
+
+.title{
+    font-size:34px;
+    margin-bottom:30px;
+    color:#1e293b;
+}
+
+/* CARD */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+
+.card h3{
+    color:#64748b;
+    margin-bottom:10px;
+}
+
+.card h1{
+    color:#1e293b;
+    font-size:32px;
+}
+
+.income{
+    border-left:8px solid #22c55e;
+}
+
+.expense{
+    border-left:8px solid #ef4444;
+}
+
+.user{
+    border-left:8px solid #3b82f6;
+}
+
+.transaksi{
+    border-left:8px solid #8b5cf6;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2>🛠 CashMate</h2>
+
+    <div class="menu">
+
+        <a href="/admin/dashboard-admin" >
+            <span>📊</span> Dashboard
+        </a>
+
+        <a href="/admin/users">
+            <span>👤</span> Kelola User
+        </a>
+
+        <a href="/admin/transaksi">
+            <span>💸</span> Kelola Transaksi
+        </a>
+
+        <a href="/admin/laporan" class="active">
+            <span>🧾</span> Laporan
+        </a>
+
+        <a href="/admin/settings">
+            <span>⚙</span> Settings
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <h1 class="title">
+        Laporan Sistem
+    </h1>
+
+    <div class="cards">
+
+        <div class="card income">
+
+            <h3>Total Pemasukan</h3>
+
+            <h1
+            th:text="'Rp ' + ${#numbers.formatDecimal(pemasukan,0,'POINT',0,'COMMA')}">
+            </h1>
+
+        </div>
+
+        <div class="card expense">
+
+            <h3>Total Pengeluaran</h3>
+
+            <h1
+            th:text="'Rp ' + ${#numbers.formatDecimal(pengeluaran,0,'POINT',0,'COMMA')}">
+            </h1>
+
+        </div>
+
+        <div class="card user">
+
+            <h3>Total User</h3>
+
+            <h1 th:text="${totalUser}"></h1>
+
+        </div>
+
+        <div class="card transaksi">
+
+            <h3>Total Transaksi</h3>
+
+            <h1 th:text="${totalTransaksi}"></h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
