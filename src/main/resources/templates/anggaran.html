@@ -354,10 +354,9 @@
         }
 
         table{
-            width:100%;
-            border-collapse:collapse;
-            min-width:850px;
-        }
+        width:100%;
+        border-collapse:collapse;
+    }
 
         table th{
             background:linear-gradient(135deg,#2563eb,#7c3aed);
@@ -595,21 +594,24 @@
             </tr>
 
 <tr th:each="anggaran : ${listAnggaran}">
+    <td th:text="${anggaran.anggaranId}"></td>
     <td th:text="${anggaran.periode}"></td>
     <td th:text="${anggaran.kategori}"></td>
     <td th:text="${anggaran.jumlahTarget}"></td>
+    <td th:text="${anggaran.jumlahTerpakai}"></td>
+    <td th:text="${anggaran.jumlahTarget - anggaran.jumlahTerpakai}"></td>
 
     <td>
-        <a th:href="@{/anggaran/edit/{id}(id=${anggaran.anggaranId})}">
-            Edit
-        </a>
-    </td>
+    <a class="edit"
+       th:href="@{/anggaran/edit/{id}(id=${anggaran.anggaranId})}">
+        ✏️ Edit
+    </a>
 
-    <td>
-        <a th:href="@{/anggaran/delete/{id}(id=${anggaran.anggaranId})}">
-            Hapus
-        </a>
-    </td>
+    <a class="hapus"
+       th:href="@{/anggaran/delete/{id}(id=${anggaran.anggaranId})}">
+        🗑️ Hapus
+    </a>
+</td>
 </tr>
 
         </table>
