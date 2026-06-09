@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard - CashMate</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f8fafc;
+        }
+
+        .sidebar{
+            width:260px;
+            height:100vh;
+            position:fixed;
+            background:linear-gradient(180deg,#0f172a,#1e1b4b,#312e81,#2563eb);
+            padding:30px 20px;
+        }
+
+        .logo{
+            color:white;
+            font-size:28px;
+            font-weight:700;
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:15px;
+            margin-bottom:10px;
+            border-radius:15px;
+        }
+
+        .sidebar a:hover{
+            background:rgba(255,255,255,.15);
+        }
+
+        .main{
+            margin-left:260px;
+            padding:35px;
+        }
+
+        .header{
+            background:white;
+            padding:30px;
+            border-radius:25px;
+            box-shadow:0 8px 25px rgba(0,0,0,.05);
+        }
+
+        .cards{
+            margin-top:30px;
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:20px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:20px;
+            box-shadow:0 8px 20px rgba(0,0,0,.05);
+        }
+
+        .card h3{
+            color:#64748b;
+        }
+
+        .card h2{
+            margin-top:10px;
+            color:#2563eb;
+        }
+
+        .table-box{
+            margin-top:30px;
+            background:white;
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 8px 20px rgba(0,0,0,.05);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            background:#2563eb;
+            color:white;
+            padding:15px;
+        }
+
+        td{
+            padding:15px;
+            border-bottom:1px solid #eee;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        👑 CashMate Admin
+    </div>
+
+    <a href="/admin">📊 Dashboard</a>
+    <a href="/transaksi">💸 Transaksi</a>
+    <a href="/laporan">📑 Laporan</a>
+    <a href="/">🚪 Logout</a>
+
+</div>
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>Dashboard Administrator 👑</h1>
+
+        <p>
+            Kelola seluruh aktivitas Sistem Keuangan Digital
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total User</h3>
+            <h2>25</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Transaksi</h3>
+            <h2>350</h2>
+        </div>
+
+        <div class="card">
+            <h3>Pemasukan</h3>
+            <h2>Rp 15 Juta</h2>
+        </div>
+
+        <div class="card">
+            <h3>Pengeluaran</h3>
+            <h2>Rp 8 Juta</h2>
+        </div>
+
+    </div>
+
+    <div class="table-box">
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Role</th>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td>Admin</td>
+                <td>ADMIN</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>User</td>
+                <td>USER</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+<h1>Dashboard Admin</h1>
+
+<div>
+    <a href="/admin/users">Kelola User</a>
+</div>
+
+<div>
+    <a href="/admin/laporan">Laporan Sistem</a>
+</div>
+
+<div>
+    <a href="/logout">Logout</a>
+</div>

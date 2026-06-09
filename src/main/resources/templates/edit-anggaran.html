@@ -1,49 +1,259 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Anggaran</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Transaksi - CashMate</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Poppins',sans-serif;
+            background:#f8fafc;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px;
+            position:relative;
+        }
+
+        body::before{
+            content:'';
+            position:absolute;
+            width:400px;
+            height:400px;
+            background:rgba(59,130,246,0.08);
+            border-radius:50%;
+            top:-100px;
+            right:-100px;
+        }
+
+        body::after{
+            content:'';
+            position:absolute;
+            width:300px;
+            height:300px;
+            background:rgba(168,85,247,0.08);
+            border-radius:50%;
+            bottom:-100px;
+            left:-100px;
+        }
+
+        .card{
+            width:100%;
+            max-width:650px;
+            background:white;
+            padding:40px;
+            border-radius:28px;
+            box-shadow:0 12px 30px rgba(0,0,0,0.08);
+            position:relative;
+            z-index:10;
+        }
+
+        h2{
+            color:#2563eb;
+            font-size:30px;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            color:#64748b;
+            margin-bottom:25px;
+        }
+
+        .info-box{
+            background:#eff6ff;
+            color:#2563eb;
+            padding:14px;
+            border-radius:14px;
+            margin-bottom:25px;
+            font-size:14px;
+        }
+
+        .input-group{
+            margin-bottom:20px;
+        }
+
+        .input-group label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:500;
+            color:#334155;
+        }
+
+        input,
+        select{
+            width:100%;
+            padding:14px;
+            border:1px solid #dbe2ea;
+            border-radius:14px;
+            background:#f8fafc;
+            font-size:14px;
+            transition:0.3s;
+        }
+
+        input:focus,
+        select:focus{
+            outline:none;
+            border-color:#2563eb;
+            background:white;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+        }
+
+        .button-group{
+            display:flex;
+            gap:15px;
+            margin-top:25px;
+        }
+
+        .save-btn{
+            flex:1;
+            background:linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+            color:white;
+            border:none;
+            padding:15px;
+            border-radius:14px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .save-btn:hover{
+            transform:translateY(-3px);
+            box-shadow:0 10px 20px rgba(37,99,235,0.25);
+        }
+
+        .back-btn{
+            flex:1;
+            text-align:center;
+            text-decoration:none;
+            background:#e2e8f0;
+            color:#334155;
+            padding:15px;
+            border-radius:14px;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        .back-btn:hover{
+            background:#cbd5e1;
+            transform:translateY(-3px);
+        }
+
+        @media(max-width:768px){
+
+            .card{
+                padding:25px;
+            }
+
+            .button-group{
+                flex-direction:column;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
 
-<h2>Edit Anggaran</h2>
+<div class="card">
 
-<form action="/anggaran/update" method="post">
+    <h2>✏️ Edit Transaksi</h2>
 
-    <input type="hidden"
-           name="id"
-           th:value="${anggaran.anggaranId}">
+    <p class="subtitle">
+        Perbarui data transaksi agar catatan keuangan tetap akurat.
+    </p>
 
-    <div>
-        <label>Periode</label>
-        <input type="text"
-               name="periode"
-               th:value="${anggaran.periode}">
+    <div class="info-box">
+        📌 Pastikan data transaksi yang diperbarui sudah benar sebelum disimpan.
     </div>
 
-    <div>
-        <label>Kategori</label>
-        <input type="text"
-               name="kategori"
-               th:value="${anggaran.kategori}">
-    </div>
+    <form action="/transaksi/update" method="post">
 
-    <div>
-        <label>Jumlah Target</label>
-        <input type="number"
-               step="0.01"
-               name="jumlahTarget"
-               th:value="${anggaran.jumlahTarget}">
-    </div>
+        <input type="hidden"
+               name="id"
+               th:value="${transaksi.id}">
 
-    <button type="submit">
-        Simpan Perubahan
-    </button>
+        <div class="input-group">
+            <label>📝 Nama Transaksi</label>
 
-</form>
+            <input type="text"
+                   name="nama"
+                   th:value="${transaksi.nama}">
+        </div>
 
-<br>
+        <div class="input-group">
+            <label>💰 Jumlah</label>
 
-<a href="/anggaran">Kembali</a>
+            <input type="number"
+                   name="jumlah"
+                   th:value="${transaksi.jumlah}">
+        </div>
+
+        <div class="input-group">
+            <label>📊 Jenis Transaksi</label>
+
+            <select name="jenis">
+
+                <option value="Pemasukan"
+                        th:selected="${transaksi.jenis == 'Pemasukan'}">
+                    Pemasukan
+                </option>
+
+                <option value="Pengeluaran"
+                        th:selected="${transaksi.jenis == 'Pengeluaran'}">
+                    Pengeluaran
+                </option>
+
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>📂 Kategori</label>
+
+            <select name="kategori">
+
+                <option value="Makan" th:selected="${transaksi.kategori == 'Makan'}">🍔 Makan</option>
+                <option value="Transport" th:selected="${transaksi.kategori == 'Transport'}">🚗 Transport</option>
+                <option value="Belanja" th:selected="${transaksi.kategori == 'Belanja'}">🛍️ Belanja</option>
+                <option value="Hiburan" th:selected="${transaksi.kategori == 'Hiburan'}">🎮 Hiburan</option>
+                <option value="Gaji" th:selected="${transaksi.kategori == 'Gaji'}">💼 Gaji</option>
+                <option value="Bonus" th:selected="${transaksi.kategori == 'Bonus'}">🎁 Bonus</option>
+                <option value="Freelance" th:selected="${transaksi.kategori == 'Freelance'}">💻 Freelance</option>
+                <option value="Investasi" th:selected="${transaksi.kategori == 'Investasi'}">📈 Investasi</option>
+
+            </select>
+        </div>
+
+        <div class="button-group">
+
+            <button type="submit" class="save-btn">
+                💾 Simpan Perubahan
+            </button>
+
+            <a href="/transaksi" class="back-btn">
+                ← Kembali
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
 
 </body>
 </html>
